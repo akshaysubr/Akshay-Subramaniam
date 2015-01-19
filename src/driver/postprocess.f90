@@ -10,7 +10,7 @@ program postprocess
 
     ! Loop through time steps
     do step=t1,tf
-        print*, 'Processing time step ',step
+        print*, '> Processing time step ',step
         call mypostprocess(step)
     end do
     
@@ -21,7 +21,7 @@ end program postprocess
 subroutine mypostprocess(step)
 
     use globals, only: u,rho,p,x_c,y_c,z_c,iodata
-    use globals, only: dx,dy,dz,nx,ny,nz,t1,tf
+    use globals, only: dx,dy,dz,nx,ny,nz,t1,tf,dt,flen,jobdir
     use interfaces, only: ddx,ddy,ddz,integrate,grad
     implicit none
     integer, intent(in) :: step
@@ -29,7 +29,16 @@ subroutine mypostprocess(step)
     real(kind=4) :: vortx_max,vorty_max,vortz_max,vortmag_max
     real(kind=4) :: vortx_gen,vorty_gen,vortz_gen,vortmag_gen
     real(kind=4), dimension(:,:,:,:), allocatable :: vort,gradrho,gradp
-   
+    character(len=flen) :: statsfile
+    integer, parameter :: statsUnit=37
+
+    WRITE(statsfile,'(2A)') TRIM(jobdir),'/mir-pp.dat'
+    if (step == t1) then
+        OPEN(UNIT=statsUnit,FILE=statsfile,FORM='FORMATTED',STATUS='NEW')
+    else
+        OPEN(UNIT=statsUnit,FILE=statsfile,FORM='FORMATTED',POSITION='APPEND')
+    end if
+
     ! Read data from all procs
     call read_allProcs(step)
 
@@ -48,14 +57,14 @@ subroutine mypostprocess(step)
     vortmag_max = MAXVAL(SQRT( vort(:,:,:,1)**2+vort(:,:,:,2)**2+vort(:,:,:,3)**2 ))
     ! ---------------- Vorticity metrics ----------------
     
-    print*,'Integrated x-vorticity = ',vortx_int
-    print*,'Integrated y-vorticity = ',vorty_int
-    print*,'Integrated z-vorticity = ',vortz_int
+    print*,'    Integrated x-vorticity = ',vortx_int
+    print*,'    Integrated y-vorticity = ',vorty_int
+    print*,'    Integrated z-vorticity = ',vortz_int
 
-    print*,'Maximum x-vorticity = ',vortx_max
-    print*,'Maximum y-vorticity = ',vorty_max
-    print*,'Maximum z-vorticity = ',vortz_max
-    print*,'Maximum vorticity magnitude = ',vortmag_max
+    print*,'    Maximum x-vorticity = ',vortx_max
+    print*,'    Maximum y-vorticity = ',vorty_max
+    print*,'    Maximum z-vorticity = ',vortz_max
+    print*,'    Maximum vorticity magnitude = ',vortmag_max
 
     allocate( gradrho(SIZE(u,1),SIZE(u,2),SIZE(u,3),3) )
     allocate(   gradp(SIZE(u,1),SIZE(u,2),SIZE(u,3),3) )
@@ -73,10 +82,21 @@ subroutine mypostprocess(step)
     vortz_gen = integrate(vort(:,:,:,3))
     vortmag_gen = integrate(SQRT( vort(:,:,:,1)**2+vort(:,:,:,2)**2+vort(:,:,:,3)**2 ))
     
-    print*,'Integrated x-vorticity generation = ',vortx_gen
-    print*,'Integrated y-vorticity generation = ',vorty_gen
-    print*,'Integrated z-vorticity generation = ',vortz_gen
-    print*,'Integrated vorticity generation magnitude = ',vortmag_gen
+    print*,'    Integrated x-vorticity generation = ',vortx_gen
+    print*,'    Integrated y-vorticity generation = ',vorty_gen
+    print*,'    Integrated z-vorticity generation = ',vortz_gen
+    print*,'    Integrated vorticity generation magnitude = ',vortmag_gen
+
+    if (step == 0) then
+        WRITE(statsUnit,'(12A20)') 'Time (s)','Integrated X vort','Integrated Y vort','Integrated Z vort', &
+                                 & 'Max X vort','Max Y vort','Max Z vort','Max vort mag', &
+                                 & 'Int X vort gen','Int Y vort gen','Int Z vort gen','Int vort gen mag'
+    end if
+    WRITE(statsUnit,'(12ES20.8)') step*dt,vortx_int,vorty_int,vortz_int, &
+                             & vortx_max,vorty_max,vortz_max,vortmag_max, &
+                             & vortx_gen,vorty_gen,vortz_gen,vortmag_gen
+    CLOSE(statsUnit)
+
 
     ! ---------------- Vortex gen metrics ----------------
     deallocate( vort )
