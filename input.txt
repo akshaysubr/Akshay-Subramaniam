@@ -1,0 +1,10 @@
+&INPUT
+jobdir = '/home/modern4/akshays/data/akshays/miranda/TAMU/TEST_SLIP_OBLQ_Y064'
+nx = 256
+ny = 64
+nz = 64
+t1 = 0
+tf = 1
+dt = 1.0D-4
+verbose = .FALSE.
+/
