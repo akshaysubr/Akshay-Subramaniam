@@ -4,11 +4,9 @@ This README would normally document whatever steps are necessary to get your app
 
 ### What is this repository for? ###
 
-* Quick summary
-A tool to postprocess Miranda visualization files
+* A tool to postprocess Miranda visualization files
 
-* Version
-0.1
+* Version 0.1
 
 ### How do I get set up? ###
 
