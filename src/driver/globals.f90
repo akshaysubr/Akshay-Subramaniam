@@ -72,6 +72,44 @@ module globals
 
 end module globals
 
+
+
+! Subroutine to setup all the global variables
+subroutine setup_globals
+
+    use globals, only: nx,ny,nz,ax,ay,az,px,py,pz,xInd,yInd,zInd,ndim,nvars,ns,iodata
+    implicit none
+
+    ! Set points per processor
+    ax = nx/px
+    ay = ny/py
+    az = nz/pz
+
+    ! Set indices for coords
+    xInd = nvars+ns+1
+    yInd = xInd+1
+    zInd = yInd+1
+
+    ! Set total variable dimensionality
+    ndim = zInd
+
+end subroutine setup_globals
+
+
+
+! Allocate memory for data from all procs
+subroutine allocate_allProcs
+
+    use globals, only: nx,ny,nz,ndim,iodata
+    implicit none
+
+    if (.not. allocated(iodata)) allocate( iodata(nx,ny,nz,ndim) )
+
+end subroutine allocate_allProcs
+
+
+
+! Setup pointers to iodata for easier data access
 subroutine setup_pointers
 
     use globals, only: u,v,w,rho,e,p,T,c,mu,bulk,ktc,Diff,Y,x_c,y_c,z_c,iodata,ns

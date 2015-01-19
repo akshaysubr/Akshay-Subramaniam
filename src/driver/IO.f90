@@ -92,30 +92,6 @@ end subroutine cleanup_postprocess
 
 
 
-! Subroutine to setup all the global variables
-subroutine setup_globals
-
-    use globals, only: nx,ny,nz,ax,ay,az,px,py,pz,xInd,yInd,zInd,ndim,nvars,ns,iodata
-    implicit none
-
-    ! Set points per processor
-    ax = nx/px
-    ay = ny/py
-    az = nz/pz
-
-    ! Set indices for coords
-    xInd = nvars+ns+1
-    yInd = xInd+1
-    zInd = yInd+1
-
-    ! Set total variable dimensionality
-    ndim = zInd
-
-end subroutine setup_globals
-
-
-
-
 ! Read the data from a given processor and visualization directory
 subroutine readProcData(vizdir,xp,yp,zp,procdata)
 
