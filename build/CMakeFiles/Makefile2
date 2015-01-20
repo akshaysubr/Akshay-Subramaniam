@@ -53,54 +53,54 @@ CMAKE_SOURCE_DIR = /home/modern4/akshays/mir-pp/src
 CMAKE_BINARY_DIR = /home/modern4/akshays/mir-pp/build
 
 #=============================================================================
-# Directory level rules for directory driver
+# Directory level rules for directory prob
 
 # Convenience name for "all" pass in the directory.
-driver/all: driver/CMakeFiles/postprocess.dir/all
-.PHONY : driver/all
+prob/all: prob/CMakeFiles/postprocess.dir/all
+.PHONY : prob/all
 
 # Convenience name for "clean" pass in the directory.
-driver/clean: driver/CMakeFiles/postprocess.dir/clean
-.PHONY : driver/clean
+prob/clean: prob/CMakeFiles/postprocess.dir/clean
+.PHONY : prob/clean
 
 # Convenience name for "preinstall" pass in the directory.
-driver/preinstall:
-.PHONY : driver/preinstall
+prob/preinstall:
+.PHONY : prob/preinstall
 
 #=============================================================================
-# Target rules for target driver/CMakeFiles/postprocess.dir
+# Target rules for target prob/CMakeFiles/postprocess.dir
 
 # All Build rule for target.
-driver/CMakeFiles/postprocess.dir/all:
-	$(MAKE) -f driver/CMakeFiles/postprocess.dir/build.make driver/CMakeFiles/postprocess.dir/depend
-	$(MAKE) -f driver/CMakeFiles/postprocess.dir/build.make driver/CMakeFiles/postprocess.dir/requires
-	$(MAKE) -f driver/CMakeFiles/postprocess.dir/build.make driver/CMakeFiles/postprocess.dir/build
+prob/CMakeFiles/postprocess.dir/all:
+	$(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/depend
+	$(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/requires
+	$(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/build
 	$(CMAKE_COMMAND) -E cmake_progress_report /home/modern4/akshays/mir-pp/build/CMakeFiles  1 2 3 4 5 6
 	@echo "Built target postprocess"
-.PHONY : driver/CMakeFiles/postprocess.dir/all
+.PHONY : prob/CMakeFiles/postprocess.dir/all
 
 # Include target in all.
-all: driver/CMakeFiles/postprocess.dir/all
+all: prob/CMakeFiles/postprocess.dir/all
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-driver/CMakeFiles/postprocess.dir/rule: cmake_check_build_system
+prob/CMakeFiles/postprocess.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 6
-	$(MAKE) -f CMakeFiles/Makefile2 driver/CMakeFiles/postprocess.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/postprocess.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 0
-.PHONY : driver/CMakeFiles/postprocess.dir/rule
+.PHONY : prob/CMakeFiles/postprocess.dir/rule
 
 # Convenience name for target.
-postprocess: driver/CMakeFiles/postprocess.dir/rule
+postprocess: prob/CMakeFiles/postprocess.dir/rule
 .PHONY : postprocess
 
 # clean rule for target.
-driver/CMakeFiles/postprocess.dir/clean:
-	$(MAKE) -f driver/CMakeFiles/postprocess.dir/build.make driver/CMakeFiles/postprocess.dir/clean
-.PHONY : driver/CMakeFiles/postprocess.dir/clean
+prob/CMakeFiles/postprocess.dir/clean:
+	$(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/clean
+.PHONY : prob/CMakeFiles/postprocess.dir/clean
 
 # clean rule for target.
-clean: driver/CMakeFiles/postprocess.dir/clean
+clean: prob/CMakeFiles/postprocess.dir/clean
 .PHONY : clean
 
 #=============================================================================

@@ -26,7 +26,7 @@ IF ("${CMAKE_CURRENT_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_BINARY_DIR}")
 ENDIF()
 
 #Specify all the subdirectories containing codes that produces executable files:
-set(folders_to_build driver)
+set(folders_to_build prob)
 foreach(folder ${folders_to_build})
   add_subdirectory(${folder})
 endforeach()

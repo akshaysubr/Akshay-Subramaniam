@@ -108,7 +108,7 @@ postprocess: cmake_check_build_system
 
 # fast build rule for target.
 postprocess/fast:
-	$(MAKE) -f driver/CMakeFiles/postprocess.dir/build.make driver/CMakeFiles/postprocess.dir/build
+	$(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/build
 .PHONY : postprocess/fast
 
 # Help Target
