@@ -36,7 +36,7 @@ subroutine mypostprocess(step)
     character(len=flen) :: statsfile
     integer, parameter :: statsUnit=37
 
-    WRITE(statsfile,'(2A)') TRIM(jobdir),'/mir-pp-lowmem.dat'
+    WRITE(statsfile,'(2A)') TRIM(jobdir),'/vortstats.dat'
     if (step == t1) then
         OPEN(UNIT=statsUnit,FILE=statsfile,FORM='FORMATTED',STATUS='NEW')
     else
@@ -116,7 +116,7 @@ subroutine mypostprocess(step)
     print*,'    Integrated z-vorticity generation = ',vortz_gen
     print*,'    Integrated vorticity generation magnitude = ',vortmag_gen
 
-    if (step == 0) then
+    if (step == t1) then
         WRITE(statsUnit,'(12A20)') '#         Time (s)','Integrated X vort','Integrated Y vort','Integrated Z vort', &
                                  & 'Max X vort','Max Y vort','Max Z vort','Max vort mag', &
                                  & 'Int X vort gen','Int Y vort gen','Int Z vort gen','Int vort gen mag'

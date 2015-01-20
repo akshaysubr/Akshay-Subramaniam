@@ -32,7 +32,7 @@ subroutine mypostprocess(step)
     character(len=flen) :: statsfile
     integer, parameter :: statsUnit=37
 
-    WRITE(statsfile,'(2A)') TRIM(jobdir),'/mir-pp.dat'
+    WRITE(statsfile,'(2A)') TRIM(jobdir),'/vortstats.dat'
     if (step == t1) then
         OPEN(UNIT=statsUnit,FILE=statsfile,FORM='FORMATTED',STATUS='NEW')
     else

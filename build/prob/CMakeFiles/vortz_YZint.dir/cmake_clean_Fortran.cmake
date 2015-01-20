@@ -2,9 +2,9 @@
 FILE(REMOVE
   "globals.mod"
   "GLOBALS.mod"
-  "CMakeFiles/pp_lowmem.dir/globals.mod.stamp"
+  "CMakeFiles/vortz_YZint.dir/globals.mod.stamp"
 
   "interfaces.mod"
   "INTERFACES.mod"
-  "CMakeFiles/pp_lowmem.dir/interfaces.mod.stamp"
+  "CMakeFiles/vortz_YZint.dir/interfaces.mod.stamp"
   )

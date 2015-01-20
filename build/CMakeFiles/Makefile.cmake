@@ -37,6 +37,7 @@ SET(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 SET(CMAKE_DEPEND_INFO_FILES
-  "prob/CMakeFiles/pp_allprocs.dir/DependInfo.cmake"
-  "prob/CMakeFiles/pp_lowmem.dir/DependInfo.cmake"
+  "prob/CMakeFiles/vortstats_allprocs.dir/DependInfo.cmake"
+  "prob/CMakeFiles/vortstats_lowmem.dir/DependInfo.cmake"
+  "prob/CMakeFiles/vortz_YZint.dir/DependInfo.cmake"
   )
