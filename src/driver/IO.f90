@@ -2,7 +2,7 @@
 ! Also sets the global variables and allocates the iodata array
 subroutine setup_postprocess
 
-    use globals, only: px,py,pz,nprocs,procmap,invprocmap
+    use globals, only: px,py,pz,nprocs,procmap,invprocmap,lowmem
     use globals, only: nx,ny,nz,ns,nvars,ndim,xInd,yInd,zInd
     use globals, only: ax,ay,az,dx,dy,dz 
     use globals, only: t1,tf,dt,nsteps
@@ -16,7 +16,7 @@ subroutine setup_postprocess
     character(len=90) :: inputFile,procmapfile,plotmir
     character(len=90) :: dumchar
 
-    NAMELIST /INPUT/ jobdir, nx, ny, nz, t1, tf, dt, verbose
+    NAMELIST /INPUT/ jobdir, t1, tf, dt, verbose
 
     ioUnit = 17
 
@@ -56,7 +56,9 @@ subroutine setup_postprocess
     OPEN(UNIT=ioUnit, FILE=TRIM(plotmir), FORM='FORMATTED')
 
     ! Read metadata
-    DO i=1,8; READ(ioUnit,*); END DO         ! Skip first 8 lines
+    DO i=1,5; READ(ioUnit,*); END DO         ! Skip first 5 lines
+    READ(ioUnit,*) dumchar,nx,ny,nz          ! Domain size
+    DO i=1,2; READ(ioUnit,*); END DO         ! Skip next 2 lines
     READ(ioUnit,*) dumchar,dx,dy,dz          ! Grid spacing
     READ(ioUnit,*) dumchar, nvars            ! # of variables
     DO i=1,nvars; READ(ioUnit,*); END DO     ! Skip variable lines
@@ -69,12 +71,14 @@ subroutine setup_postprocess
     CLOSE(ioUnit)
 
     call setup_globals
-    call allocate_allProcs
+    if (lowmem) then
+        call allocate_singleProc
+    else
+        call allocate_allProcs
+    end if
     call setup_pointers
 
 end subroutine setup_postprocess
-
-
 
 
 ! Subroutine to deallocate all the allocated global arrays
@@ -88,8 +92,6 @@ subroutine cleanup_postprocess
     deallocate( invprocmap )
 
 end subroutine cleanup_postprocess
-
-
 
 
 ! Read the data from a given processor and visualization directory
@@ -122,8 +124,6 @@ subroutine readProcData(vizdir,xp,yp,zp,procdata)
 end subroutine readProcData
 
 
-
-
 ! Read the grid from a given processor
 subroutine readProcGrid(xp,yp,zp,procgrid)
 
@@ -151,8 +151,6 @@ subroutine readProcGrid(xp,yp,zp,procgrid)
     CLOSE(pUnit)
 
 end subroutine readProcGrid
-
-
 
 
 ! Read data from all procs and store in global iodata array
@@ -184,6 +182,27 @@ subroutine read_allProcs(step)
 end subroutine read_allProcs
 
 
+! Read data from single proc and store in global iodata array
+subroutine read_thisProc(step,xp,yp,zp)
+    use globals, only: nx,ny,nz,ax,ay,az,px,py,pz,xInd,yInd,zInd,ns,ndim,iodata
+    use globals, only: jobdir,flen
+    implicit none
+    integer, intent(in) :: step
+    integer, intent(in) :: xp,yp,zp
+    character(len=flen) :: vizdir
+    real(kind=4), dimension(:,:,:,:), allocatable :: procdata
+
+    if (.not. allocated(iodata)) call allocate_singleProc
+    allocate( procdata(ax,ay,az,ndim-3) )
+
+    WRITE(vizdir,'(2A,I4.4)') TRIM(jobdir),'/vis',step
+
+    call readProcData(vizdir,xp,yp,zp,procdata)
+    iodata(:,:,:,1:ndim-3) = procdata
+
+    deallocate( procdata )
+
+end subroutine read_thisProc
 
 
 ! Read grid from all the processors and store in global iodata array
@@ -209,3 +228,22 @@ subroutine read_allProcs_grid
     deallocate( procgrid )
 
 end subroutine read_allProcs_grid
+
+
+! Read grid from this processor and store in global iodata array
+subroutine read_thisProc_grid(xp,yp,zp)
+    use globals, only: nx,ny,nz,ax,ay,az,px,py,pz,xInd,yInd,zInd,ns,ndim,iodata
+    use globals, only: jobdir,flen
+    implicit none
+    integer, intent(in) :: xp,yp,zp
+    real(kind=4), dimension(:,:,:,:), allocatable :: procgrid
+
+    if (.not. allocated(iodata)) call allocate_allProcs
+    allocate( procgrid(ax,ay,az,3) )
+
+    call readProcGrid(xp,yp,zp,procgrid)
+    iodata(:,:,:,ndim-2:ndim) = procgrid
+
+    deallocate( procgrid )
+
+end subroutine read_thisProc_grid

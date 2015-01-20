@@ -2,6 +2,7 @@ module globals
     implicit none
     integer, parameter :: flen=120
     logical :: verbose=.FALSE.
+    logical :: lowmem=.FALSE.
 
     integer :: px
     integer :: py
@@ -77,7 +78,8 @@ end module globals
 ! Subroutine to setup all the global variables
 subroutine setup_globals
 
-    use globals, only: nx,ny,nz,ax,ay,az,px,py,pz,xInd,yInd,zInd,ndim,nvars,ns,iodata
+    use globals, only: nx,ny,nz,ax,ay,az,px,py,pz,t1,tf,nsteps
+    use globals, only: xInd,yInd,zInd,ndim,nvars,ns,iodata
     implicit none
 
     ! Set points per processor
@@ -93,6 +95,19 @@ subroutine setup_globals
     ! Set total variable dimensionality
     ndim = zInd
 
+    if (t1 .gt. tf) then
+        print*,'ERROR: Invalid initial and final times (t1 > tf). Check input file and rerun'
+        stop
+    end if
+    if (tf .gt. nsteps-1) then
+        print*,'WARNING: Final time greater than max available time. Setting final time to last available time'
+        tf = nsteps
+    end if
+    if (t1 .gt. nsteps-1) then
+        print*,'ERROR: Invalid initial time t1 (t1 > max available time). Check input file and rerun'
+        stop
+    end if
+
 end subroutine setup_globals
 
 
@@ -107,6 +122,16 @@ subroutine allocate_allProcs
 
 end subroutine allocate_allProcs
 
+
+! Allocate memory for data from single proc
+subroutine allocate_singleProc
+
+    use globals, only: ax,ay,az,ndim,iodata
+    implicit none
+
+    if (.not. allocated(iodata)) allocate( iodata(ax,ay,az,ndim) )
+
+end subroutine allocate_singleProc
 
 
 ! Setup pointers to iodata for easier data access

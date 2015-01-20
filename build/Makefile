@@ -99,17 +99,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named postprocess
+# Target rules for targets named pp_allprocs
 
 # Build rule for target.
-postprocess: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 postprocess
-.PHONY : postprocess
+pp_allprocs: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pp_allprocs
+.PHONY : pp_allprocs
 
 # fast build rule for target.
-postprocess/fast:
-	$(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/build
-.PHONY : postprocess/fast
+pp_allprocs/fast:
+	$(MAKE) -f prob/CMakeFiles/pp_allprocs.dir/build.make prob/CMakeFiles/pp_allprocs.dir/build
+.PHONY : pp_allprocs/fast
+
+#=============================================================================
+# Target rules for targets named pp_lowmem
+
+# Build rule for target.
+pp_lowmem: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 pp_lowmem
+.PHONY : pp_lowmem
+
+# fast build rule for target.
+pp_lowmem/fast:
+	$(MAKE) -f prob/CMakeFiles/pp_lowmem.dir/build.make prob/CMakeFiles/pp_lowmem.dir/build
+.PHONY : pp_lowmem/fast
 
 # Help Target
 help:
@@ -119,7 +132,8 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... postprocess"
+	@echo "... pp_allprocs"
+	@echo "... pp_lowmem"
 .PHONY : help
 
 

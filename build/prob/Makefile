@@ -99,25 +99,40 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-prob/CMakeFiles/postprocess.dir/rule:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/postprocess.dir/rule
-.PHONY : prob/CMakeFiles/postprocess.dir/rule
+prob/CMakeFiles/pp_allprocs.dir/rule:
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/pp_allprocs.dir/rule
+.PHONY : prob/CMakeFiles/pp_allprocs.dir/rule
 
 # Convenience name for target.
-postprocess: prob/CMakeFiles/postprocess.dir/rule
-.PHONY : postprocess
+pp_allprocs: prob/CMakeFiles/pp_allprocs.dir/rule
+.PHONY : pp_allprocs
 
 # fast build rule for target.
-postprocess/fast:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/build
-.PHONY : postprocess/fast
+pp_allprocs/fast:
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_allprocs.dir/build.make prob/CMakeFiles/pp_allprocs.dir/build
+.PHONY : pp_allprocs/fast
+
+# Convenience name for target.
+prob/CMakeFiles/pp_lowmem.dir/rule:
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/pp_lowmem.dir/rule
+.PHONY : prob/CMakeFiles/pp_lowmem.dir/rule
+
+# Convenience name for target.
+pp_lowmem: prob/CMakeFiles/pp_lowmem.dir/rule
+.PHONY : pp_lowmem
+
+# fast build rule for target.
+pp_lowmem/fast:
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_lowmem.dir/build.make prob/CMakeFiles/pp_lowmem.dir/build
+.PHONY : pp_lowmem/fast
 
 __/driver/IO.o: __/driver/IO.f90.o
 .PHONY : __/driver/IO.o
 
 # target to build an object file
 __/driver/IO.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/__/driver/IO.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_allprocs.dir/build.make prob/CMakeFiles/pp_allprocs.dir/__/driver/IO.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_lowmem.dir/build.make prob/CMakeFiles/pp_lowmem.dir/__/driver/IO.f90.o
 .PHONY : __/driver/IO.f90.o
 
 __/driver/functions.o: __/driver/functions.f90.o
@@ -125,7 +140,8 @@ __/driver/functions.o: __/driver/functions.f90.o
 
 # target to build an object file
 __/driver/functions.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/__/driver/functions.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_allprocs.dir/build.make prob/CMakeFiles/pp_allprocs.dir/__/driver/functions.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_lowmem.dir/build.make prob/CMakeFiles/pp_lowmem.dir/__/driver/functions.f90.o
 .PHONY : __/driver/functions.f90.o
 
 __/driver/globals.o: __/driver/globals.f90.o
@@ -133,7 +149,8 @@ __/driver/globals.o: __/driver/globals.f90.o
 
 # target to build an object file
 __/driver/globals.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/__/driver/globals.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_allprocs.dir/build.make prob/CMakeFiles/pp_allprocs.dir/__/driver/globals.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_lowmem.dir/build.make prob/CMakeFiles/pp_lowmem.dir/__/driver/globals.f90.o
 .PHONY : __/driver/globals.f90.o
 
 __/driver/interfaces.o: __/driver/interfaces.f90.o
@@ -141,7 +158,8 @@ __/driver/interfaces.o: __/driver/interfaces.f90.o
 
 # target to build an object file
 __/driver/interfaces.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/__/driver/interfaces.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_allprocs.dir/build.make prob/CMakeFiles/pp_allprocs.dir/__/driver/interfaces.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_lowmem.dir/build.make prob/CMakeFiles/pp_lowmem.dir/__/driver/interfaces.f90.o
 .PHONY : __/driver/interfaces.f90.o
 
 __/driver/operators.o: __/driver/operators.f90.o
@@ -149,16 +167,25 @@ __/driver/operators.o: __/driver/operators.f90.o
 
 # target to build an object file
 __/driver/operators.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/__/driver/operators.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_allprocs.dir/build.make prob/CMakeFiles/pp_allprocs.dir/__/driver/operators.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_lowmem.dir/build.make prob/CMakeFiles/pp_lowmem.dir/__/driver/operators.f90.o
 .PHONY : __/driver/operators.f90.o
 
-postprocess.o: postprocess.f90.o
-.PHONY : postprocess.o
+pp_allprocs.o: pp_allprocs.f90.o
+.PHONY : pp_allprocs.o
 
 # target to build an object file
-postprocess.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/postprocess.dir/build.make prob/CMakeFiles/postprocess.dir/postprocess.f90.o
-.PHONY : postprocess.f90.o
+pp_allprocs.f90.o:
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_allprocs.dir/build.make prob/CMakeFiles/pp_allprocs.dir/pp_allprocs.f90.o
+.PHONY : pp_allprocs.f90.o
+
+pp_lowmem.o: pp_lowmem.f90.o
+.PHONY : pp_lowmem.o
+
+# target to build an object file
+pp_lowmem.f90.o:
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/pp_lowmem.dir/build.make prob/CMakeFiles/pp_lowmem.dir/pp_lowmem.f90.o
+.PHONY : pp_lowmem.f90.o
 
 # Help Target
 help:
@@ -167,14 +194,16 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... postprocess"
+	@echo "... pp_allprocs"
+	@echo "... pp_lowmem"
 	@echo "... rebuild_cache"
 	@echo "... __/driver/IO.o"
 	@echo "... __/driver/functions.o"
 	@echo "... __/driver/globals.o"
 	@echo "... __/driver/interfaces.o"
 	@echo "... __/driver/operators.o"
-	@echo "... postprocess.o"
+	@echo "... pp_allprocs.o"
+	@echo "... pp_lowmem.o"
 .PHONY : help
 
 

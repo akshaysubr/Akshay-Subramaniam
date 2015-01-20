@@ -1,1 +1,0 @@
-ifort      CMakeFiles/postprocess.dir/postprocess.f90.o CMakeFiles/postprocess.dir/IO.f90.o CMakeFiles/postprocess.dir/globals.f90.o CMakeFiles/postprocess.dir/operators.f90.o CMakeFiles/postprocess.dir/interfaces.f90.o CMakeFiles/postprocess.dir/functions.f90.o  -o postprocess -rdynamic 
