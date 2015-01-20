@@ -1,5 +1,5 @@
 &INPUT
-jobdir = '/home/modern4/akshays/data/akshays/miranda/TAMU/TEST_SLIP_OBLQ_Y064'
+jobdir = '/home/modern4/akshays/RM_SLIP_OBLQ_064'
 nx = 256
 ny = 64
 nz = 64
