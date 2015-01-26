@@ -137,6 +137,19 @@ vortz_YZint/fast:
 	$(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/build
 .PHONY : vortz_YZint/fast
 
+#=============================================================================
+# Target rules for targets named wall_torque
+
+# Build rule for target.
+wall_torque: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 wall_torque
+.PHONY : wall_torque
+
+# fast build rule for target.
+wall_torque/fast:
+	$(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/build
+.PHONY : wall_torque/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -148,6 +161,7 @@ help:
 	@echo "... vortstats_allprocs"
 	@echo "... vortstats_lowmem"
 	@echo "... vortz_YZint"
+	@echo "... wall_torque"
 .PHONY : help
 
 

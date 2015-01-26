@@ -59,12 +59,14 @@ CMAKE_BINARY_DIR = /home/modern4/akshays/mir-pp/build
 prob/all: prob/CMakeFiles/vortstats_allprocs.dir/all
 prob/all: prob/CMakeFiles/vortstats_lowmem.dir/all
 prob/all: prob/CMakeFiles/vortz_YZint.dir/all
+prob/all: prob/CMakeFiles/wall_torque.dir/all
 .PHONY : prob/all
 
 # Convenience name for "clean" pass in the directory.
 prob/clean: prob/CMakeFiles/vortstats_allprocs.dir/clean
 prob/clean: prob/CMakeFiles/vortstats_lowmem.dir/clean
 prob/clean: prob/CMakeFiles/vortz_YZint.dir/clean
+prob/clean: prob/CMakeFiles/wall_torque.dir/clean
 .PHONY : prob/clean
 
 # Convenience name for "preinstall" pass in the directory.
@@ -177,6 +179,42 @@ prob/CMakeFiles/vortz_YZint.dir/clean:
 
 # clean rule for target.
 clean: prob/CMakeFiles/vortz_YZint.dir/clean
+.PHONY : clean
+
+#=============================================================================
+# Target rules for target prob/CMakeFiles/wall_torque.dir
+
+# All Build rule for target.
+prob/CMakeFiles/wall_torque.dir/all:
+	$(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/depend
+	$(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/requires
+	$(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/modern4/akshays/mir-pp/build/CMakeFiles  19 20 21 22 23 24
+	@echo "Built target wall_torque"
+.PHONY : prob/CMakeFiles/wall_torque.dir/all
+
+# Include target in all.
+all: prob/CMakeFiles/wall_torque.dir/all
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+prob/CMakeFiles/wall_torque.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 6
+	$(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/wall_torque.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 0
+.PHONY : prob/CMakeFiles/wall_torque.dir/rule
+
+# Convenience name for target.
+wall_torque: prob/CMakeFiles/wall_torque.dir/rule
+.PHONY : wall_torque
+
+# clean rule for target.
+prob/CMakeFiles/wall_torque.dir/clean:
+	$(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/clean
+.PHONY : prob/CMakeFiles/wall_torque.dir/clean
+
+# clean rule for target.
+clean: prob/CMakeFiles/wall_torque.dir/clean
 .PHONY : clean
 
 #=============================================================================

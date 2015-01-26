@@ -1,0 +1,1 @@
+ifort      CMakeFiles/wall_torque.dir/wall_torque.f90.o CMakeFiles/wall_torque.dir/__/driver/IO.f90.o CMakeFiles/wall_torque.dir/__/driver/globals.f90.o CMakeFiles/wall_torque.dir/__/driver/operators.f90.o CMakeFiles/wall_torque.dir/__/driver/functions.f90.o CMakeFiles/wall_torque.dir/__/driver/interfaces.f90.o  -o wall_torque -rdynamic 

@@ -140,6 +140,20 @@ vortz_YZint/fast:
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/build
 .PHONY : vortz_YZint/fast
 
+# Convenience name for target.
+prob/CMakeFiles/wall_torque.dir/rule:
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/wall_torque.dir/rule
+.PHONY : prob/CMakeFiles/wall_torque.dir/rule
+
+# Convenience name for target.
+wall_torque: prob/CMakeFiles/wall_torque.dir/rule
+.PHONY : wall_torque
+
+# fast build rule for target.
+wall_torque/fast:
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/build
+.PHONY : wall_torque/fast
+
 __/driver/IO.o: __/driver/IO.f90.o
 .PHONY : __/driver/IO.o
 
@@ -148,6 +162,7 @@ __/driver/IO.f90.o:
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/__/driver/IO.f90.o
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/__/driver/IO.f90.o
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/__/driver/IO.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/__/driver/IO.f90.o
 .PHONY : __/driver/IO.f90.o
 
 __/driver/functions.o: __/driver/functions.f90.o
@@ -158,6 +173,7 @@ __/driver/functions.f90.o:
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/__/driver/functions.f90.o
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/__/driver/functions.f90.o
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/__/driver/functions.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/__/driver/functions.f90.o
 .PHONY : __/driver/functions.f90.o
 
 __/driver/globals.o: __/driver/globals.f90.o
@@ -168,6 +184,7 @@ __/driver/globals.f90.o:
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/__/driver/globals.f90.o
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/__/driver/globals.f90.o
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/__/driver/globals.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/__/driver/globals.f90.o
 .PHONY : __/driver/globals.f90.o
 
 __/driver/interfaces.o: __/driver/interfaces.f90.o
@@ -178,6 +195,7 @@ __/driver/interfaces.f90.o:
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/__/driver/interfaces.f90.o
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/__/driver/interfaces.f90.o
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/__/driver/interfaces.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/__/driver/interfaces.f90.o
 .PHONY : __/driver/interfaces.f90.o
 
 __/driver/operators.o: __/driver/operators.f90.o
@@ -188,6 +206,7 @@ __/driver/operators.f90.o:
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/__/driver/operators.f90.o
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/__/driver/operators.f90.o
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/__/driver/operators.f90.o
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/__/driver/operators.f90.o
 .PHONY : __/driver/operators.f90.o
 
 vortstats_allprocs.o: vortstats_allprocs.f90.o
@@ -214,6 +233,14 @@ vortz_YZint.f90.o:
 	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/vortz_YZint.f90.o
 .PHONY : vortz_YZint.f90.o
 
+wall_torque.o: wall_torque.f90.o
+.PHONY : wall_torque.o
+
+# target to build an object file
+wall_torque.f90.o:
+	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/wall_torque.f90.o
+.PHONY : wall_torque.f90.o
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -225,6 +252,7 @@ help:
 	@echo "... vortstats_allprocs"
 	@echo "... vortstats_lowmem"
 	@echo "... vortz_YZint"
+	@echo "... wall_torque"
 	@echo "... __/driver/IO.o"
 	@echo "... __/driver/functions.o"
 	@echo "... __/driver/globals.o"
@@ -233,6 +261,7 @@ help:
 	@echo "... vortstats_allprocs.o"
 	@echo "... vortstats_lowmem.o"
 	@echo "... vortz_YZint.o"
+	@echo "... wall_torque.o"
 .PHONY : help
 
 
