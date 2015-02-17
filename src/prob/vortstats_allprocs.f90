@@ -46,18 +46,9 @@ subroutine mypostprocess(step)
     call read_allProcs(step)
 
     allocate( vort(SIZE(u,1),SIZE(u,2),SIZE(u,3),3), STAT = ierr )
-    allocate( vx(SIZE(u,1),SIZE(u,2),SIZE(u,3)) )
-    allocate( vy(SIZE(u,1),SIZE(u,2),SIZE(u,3)) )
-    allocate( vz(SIZE(u,1),SIZE(u,2),SIZE(u,3)) )
 
     ! ---------------- Vorticity metrics ----------------
     call calc_vorticity(vort)
-
-    call curl(vx,vy,vz,u,v,w)
-
-    print*, '    Max vx - vort(:,:,:,1) = ', MAXVAL(vx-vort(:,:,:,1))
-    print*, '    Max vy - vort(:,:,:,2) = ', MAXVAL(vy-vort(:,:,:,2))
-    print*, '    Max vz - vort(:,:,:,3) = ', MAXVAL(vz-vort(:,:,:,3))
 
     vortx_int   = integrate(vort(:,:,:,1))
     vorty_int   = integrate(vort(:,:,:,2))
@@ -114,9 +105,6 @@ subroutine mypostprocess(step)
 
 
     ! ---------------- Vortex gen metrics ----------------
-    deallocate( vx )
-    deallocate( vy )
-    deallocate( vz )
     deallocate( vort )
     ! deallocate( gradrho )
     ! deallocate( gradp   )

@@ -99,6 +99,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named vort_eqterms
+
+# Build rule for target.
+vort_eqterms: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 vort_eqterms
+.PHONY : vort_eqterms
+
+# fast build rule for target.
+vort_eqterms/fast:
+	$(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/build
+.PHONY : vort_eqterms/fast
+
+#=============================================================================
 # Target rules for targets named vortstats_allprocs
 
 # Build rule for target.
@@ -158,6 +171,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... vort_eqterms"
 	@echo "... vortstats_allprocs"
 	@echo "... vortstats_lowmem"
 	@echo "... vortz_YZint"

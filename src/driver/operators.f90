@@ -129,8 +129,6 @@ subroutine curl(fx,fy,fz,u,v,w)
     if(.not. allocated(tmp) ) allocate( tmp(SIZE(u,1),SIZE(u,2),SIZE(u,3)) )
     if(.not. allocated(dum) ) allocate( dum(SIZE(u,1),SIZE(u,2),SIZE(u,3)) )
 
-    print*, '    > In subroutine curl.'
-
     call ddy(w,tmp)
     call ddz(v,dum)
     fx = tmp-dum
@@ -148,7 +146,7 @@ subroutine curl(fx,fy,fz,u,v,w)
 
 end subroutine curl
 
-subroutine crossprod(rx,ry,rz,ux,uy,uz,vx,vy,vz)
+subroutine crossprod_components(rx,ry,rz,ux,uy,uz,vx,vy,vz)
 
     implicit none
     real(kind=4), dimension(:,:,:), intent(in) :: ux,uy,uz,vx,vy,vz
@@ -158,4 +156,16 @@ subroutine crossprod(rx,ry,rz,ux,uy,uz,vx,vy,vz)
     ry = uz*vx - ux*vz
     rz = ux*vy - uy*vx
 
-end subroutine crossprod
+end subroutine crossprod_components
+
+subroutine crossprod_arrays(r,u,v)
+
+    implicit none
+    real(kind=4), dimension(:,:,:,:), intent(in) :: u,v
+    real(kind=4), dimension(:,:,:,:), intent(out) :: r
+
+    r(:,:,:,1) = u(:,:,:,2)*v(:,:,:,3) - u(:,:,:,3)*v(:,:,:,2)
+    r(:,:,:,2) = u(:,:,:,3)*v(:,:,:,1) - u(:,:,:,1)*v(:,:,:,3)
+    r(:,:,:,3) = u(:,:,:,1)*v(:,:,:,2) - u(:,:,:,2)*v(:,:,:,1)
+
+end subroutine crossprod_arrays

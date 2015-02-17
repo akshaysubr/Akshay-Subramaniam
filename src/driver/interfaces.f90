@@ -78,11 +78,16 @@ module interfaces
 
 
     interface crossprod
-        subroutine crossprod(rx,ry,rz,ux,uy,uz,vx,vy,vz)
+        subroutine crossprod_components(rx,ry,rz,ux,uy,uz,vx,vy,vz)
             implicit none
             real(kind=4), dimension(:,:,:), intent(in) :: ux,uy,uz,vx,vy,vz
             real(kind=4), dimension(:,:,:), intent(out) :: rx,ry,rz
-        end subroutine crossprod
+        end subroutine crossprod_components
+        subroutine crossprod_arrays(r,u,v)
+            implicit none
+            real(kind=4), dimension(:,:,:,:), intent(in) :: u,v
+            real(kind=4), dimension(:,:,:,:), intent(out) :: r
+        end subroutine crossprod_arrays
     end interface
 
 end module interfaces
