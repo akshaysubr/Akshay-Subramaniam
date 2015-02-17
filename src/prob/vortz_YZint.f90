@@ -26,6 +26,7 @@ subroutine mypostprocess(step)
     use globals, only: dx,dy,dz,nx,ny,nz,px,py,pz,ax,ay,az
     use globals, only: t1,tf,dt,flen,jobdir
     use interfaces, only: ddx,ddy,ddz,integrate,grad
+    use functions, only: calc_vorticity
     implicit none
     integer, intent(in) :: step
     integer :: xp,yp,zp,i

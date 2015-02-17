@@ -9,6 +9,11 @@ prob/CMakeFiles/vortstats_allprocs.dir/__/driver/functions.f90.o.requires: prob/
 prob/CMakeFiles/vortstats_allprocs.dir/__/driver/functions.f90.o: prob/CMakeFiles/vortstats_allprocs.dir/globals.mod.stamp
 prob/CMakeFiles/vortstats_allprocs.dir/__/driver/functions.f90.o.requires: prob/CMakeFiles/vortstats_allprocs.dir/interfaces.mod.proxy
 prob/CMakeFiles/vortstats_allprocs.dir/__/driver/functions.f90.o: prob/CMakeFiles/vortstats_allprocs.dir/interfaces.mod.stamp
+prob/CMakeFiles/vortstats_allprocs.dir/functions.mod.proxy: prob/CMakeFiles/vortstats_allprocs.dir/__/driver/functions.f90.o.provides
+prob/CMakeFiles/vortstats_allprocs.dir/__/driver/functions.f90.o.provides.build:
+	$(CMAKE_COMMAND) -E cmake_copy_f90_mod prob/functions prob/CMakeFiles/vortstats_allprocs.dir/functions.mod.stamp GNU
+	$(CMAKE_COMMAND) -E touch prob/CMakeFiles/vortstats_allprocs.dir/__/driver/functions.f90.o.provides.build
+prob/CMakeFiles/vortstats_allprocs.dir/build: prob/CMakeFiles/vortstats_allprocs.dir/__/driver/functions.f90.o.provides.build
 
 prob/CMakeFiles/vortstats_allprocs.dir/globals.mod.proxy: prob/CMakeFiles/vortstats_allprocs.dir/__/driver/globals.f90.o.provides
 prob/CMakeFiles/vortstats_allprocs.dir/__/driver/globals.f90.o.provides.build:
@@ -29,6 +34,8 @@ prob/CMakeFiles/vortstats_allprocs.dir/__/driver/operators.f90.o: prob/CMakeFile
 prob/CMakeFiles/vortstats_allprocs.dir/__/driver/operators.f90.o.requires: prob/CMakeFiles/vortstats_allprocs.dir/interfaces.mod.proxy
 prob/CMakeFiles/vortstats_allprocs.dir/__/driver/operators.f90.o: prob/CMakeFiles/vortstats_allprocs.dir/interfaces.mod.stamp
 
+prob/CMakeFiles/vortstats_allprocs.dir/vortstats_allprocs.f90.o.requires: prob/CMakeFiles/vortstats_allprocs.dir/functions.mod.proxy
+prob/CMakeFiles/vortstats_allprocs.dir/vortstats_allprocs.f90.o: prob/CMakeFiles/vortstats_allprocs.dir/functions.mod.stamp
 prob/CMakeFiles/vortstats_allprocs.dir/vortstats_allprocs.f90.o.requires: prob/CMakeFiles/vortstats_allprocs.dir/globals.mod.proxy
 prob/CMakeFiles/vortstats_allprocs.dir/vortstats_allprocs.f90.o: prob/CMakeFiles/vortstats_allprocs.dir/globals.mod.stamp
 prob/CMakeFiles/vortstats_allprocs.dir/vortstats_allprocs.f90.o.requires: prob/CMakeFiles/vortstats_allprocs.dir/interfaces.mod.proxy

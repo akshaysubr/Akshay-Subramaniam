@@ -9,6 +9,11 @@ prob/CMakeFiles/vortz_YZint.dir/__/driver/functions.f90.o.requires: prob/CMakeFi
 prob/CMakeFiles/vortz_YZint.dir/__/driver/functions.f90.o: prob/CMakeFiles/vortz_YZint.dir/globals.mod.stamp
 prob/CMakeFiles/vortz_YZint.dir/__/driver/functions.f90.o.requires: prob/CMakeFiles/vortz_YZint.dir/interfaces.mod.proxy
 prob/CMakeFiles/vortz_YZint.dir/__/driver/functions.f90.o: prob/CMakeFiles/vortz_YZint.dir/interfaces.mod.stamp
+prob/CMakeFiles/vortz_YZint.dir/functions.mod.proxy: prob/CMakeFiles/vortz_YZint.dir/__/driver/functions.f90.o.provides
+prob/CMakeFiles/vortz_YZint.dir/__/driver/functions.f90.o.provides.build:
+	$(CMAKE_COMMAND) -E cmake_copy_f90_mod prob/functions prob/CMakeFiles/vortz_YZint.dir/functions.mod.stamp GNU
+	$(CMAKE_COMMAND) -E touch prob/CMakeFiles/vortz_YZint.dir/__/driver/functions.f90.o.provides.build
+prob/CMakeFiles/vortz_YZint.dir/build: prob/CMakeFiles/vortz_YZint.dir/__/driver/functions.f90.o.provides.build
 
 prob/CMakeFiles/vortz_YZint.dir/globals.mod.proxy: prob/CMakeFiles/vortz_YZint.dir/__/driver/globals.f90.o.provides
 prob/CMakeFiles/vortz_YZint.dir/__/driver/globals.f90.o.provides.build:
@@ -29,6 +34,8 @@ prob/CMakeFiles/vortz_YZint.dir/__/driver/operators.f90.o: prob/CMakeFiles/vortz
 prob/CMakeFiles/vortz_YZint.dir/__/driver/operators.f90.o.requires: prob/CMakeFiles/vortz_YZint.dir/interfaces.mod.proxy
 prob/CMakeFiles/vortz_YZint.dir/__/driver/operators.f90.o: prob/CMakeFiles/vortz_YZint.dir/interfaces.mod.stamp
 
+prob/CMakeFiles/vortz_YZint.dir/vortz_YZint.f90.o.requires: prob/CMakeFiles/vortz_YZint.dir/functions.mod.proxy
+prob/CMakeFiles/vortz_YZint.dir/vortz_YZint.f90.o: prob/CMakeFiles/vortz_YZint.dir/functions.mod.stamp
 prob/CMakeFiles/vortz_YZint.dir/vortz_YZint.f90.o.requires: prob/CMakeFiles/vortz_YZint.dir/globals.mod.proxy
 prob/CMakeFiles/vortz_YZint.dir/vortz_YZint.f90.o: prob/CMakeFiles/vortz_YZint.dir/globals.mod.stamp
 prob/CMakeFiles/vortz_YZint.dir/vortz_YZint.f90.o.requires: prob/CMakeFiles/vortz_YZint.dir/interfaces.mod.proxy

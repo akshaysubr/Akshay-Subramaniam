@@ -9,6 +9,11 @@ prob/CMakeFiles/wall_torque.dir/__/driver/functions.f90.o.requires: prob/CMakeFi
 prob/CMakeFiles/wall_torque.dir/__/driver/functions.f90.o: prob/CMakeFiles/wall_torque.dir/globals.mod.stamp
 prob/CMakeFiles/wall_torque.dir/__/driver/functions.f90.o.requires: prob/CMakeFiles/wall_torque.dir/interfaces.mod.proxy
 prob/CMakeFiles/wall_torque.dir/__/driver/functions.f90.o: prob/CMakeFiles/wall_torque.dir/interfaces.mod.stamp
+prob/CMakeFiles/wall_torque.dir/functions.mod.proxy: prob/CMakeFiles/wall_torque.dir/__/driver/functions.f90.o.provides
+prob/CMakeFiles/wall_torque.dir/__/driver/functions.f90.o.provides.build:
+	$(CMAKE_COMMAND) -E cmake_copy_f90_mod prob/functions prob/CMakeFiles/wall_torque.dir/functions.mod.stamp GNU
+	$(CMAKE_COMMAND) -E touch prob/CMakeFiles/wall_torque.dir/__/driver/functions.f90.o.provides.build
+prob/CMakeFiles/wall_torque.dir/build: prob/CMakeFiles/wall_torque.dir/__/driver/functions.f90.o.provides.build
 
 prob/CMakeFiles/wall_torque.dir/globals.mod.proxy: prob/CMakeFiles/wall_torque.dir/__/driver/globals.f90.o.provides
 prob/CMakeFiles/wall_torque.dir/__/driver/globals.f90.o.provides.build:

@@ -5,7 +5,7 @@ project(mir_pp Fortran)
 cmake_minimum_required(VERSION 2.8.5)
 
 set (CMAKE_Fortran_COMPILER "ifort")
-# set (CMAKE_Fortran_FLAGS_RELEASE "-f77rtl -O3 -xHost -ipo -fast")
+set (CMAKE_Fortran_FLAGS_RELEASE "-O0  -g -traceback")
 
 #Print an error message on an attempt to build inside the source directory tree:
 IF ("${CMAKE_CURRENT_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_BINARY_DIR}")

@@ -1,7 +1,7 @@
 &INPUT
 jobdir = '/home/modern4/akshays/RM_SLIP_OBLQ/RM_SLIP_OBLQ_064'
 t1 = 0
-tf = 60
+tf = 1
 dt = 1.0D-4
 verbose = .FALSE.
 /
