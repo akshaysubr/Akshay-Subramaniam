@@ -25,7 +25,7 @@ subroutine mypostprocess(step)
     use globals, only: u,v,w,rho,p,mu,bulk,x_c,y_c,z_c,iodata
     use globals, only: dx,dy,dz,nx,ny,nz,px,py,pz,ax,ay,az
     use globals, only: t1,tf,dt,flen,jobdir
-    use interfaces, only: ddx,ddy,ddz,integrate,grad,crossprod
+    use interfaces, only: ddx,ddy,ddz,integrate,grad,curl,crossprod
     use functions, only: calc_vorticity
     implicit none
     integer, intent(in) :: step
@@ -132,8 +132,8 @@ subroutine mypostprocess(step)
             wder(:,:,:,i) = 2.0D0*mu*wder(:,:,:,i) 
         end do
         uder(:,:,:,1) = uder(:,:,:,1) - (2.0D0*mu/3.0D0 - bulk)*dilatation
-        vder(:,:,:,1) = vder(:,:,:,1) - (2.0D0*mu/3.0D0 - bulk)*dilatation
-        wder(:,:,:,1) = wder(:,:,:,1) - (2.0D0*mu/3.0D0 - bulk)*dilatation
+        vder(:,:,:,2) = vder(:,:,:,2) - (2.0D0*mu/3.0D0 - bulk)*dilatation
+        wder(:,:,:,3) = wder(:,:,:,3) - (2.0D0*mu/3.0D0 - bulk)*dilatation
 
         ! Compressibility effect
         vortx_comp = vortx_comp - integrate(vort(:,:,:,1)*dilatation)
@@ -148,7 +148,7 @@ subroutine mypostprocess(step)
         vorty_pres = vorty_pres + integrate(vort(:,:,:,2)/rho)
         vortz_pres = vortz_pres + integrate(vort(:,:,:,3)/rho)
 
-        ! Put div(tau) in gradp
+        ! Put div(tau) in gradp (use dilatation as temporary variable)
         call ddx(uder(:,:,:,1),gradp(:,:,:,1))
         call ddy(uder(:,:,:,2),dilatation)
         gradp(:,:,:,1) = gradp(:,:,:,1) + dilatation
@@ -167,13 +167,14 @@ subroutine mypostprocess(step)
         call ddz(wder(:,:,:,3),dilatation)
         gradp(:,:,:,3) = gradp(:,:,:,3) + dilatation
 
-        ! Viscous baroclinic torque = grad(rho) x div(tau)/rho
-        call crossprod(vort,gradrho,gradp)
+        ! Viscous torque = rho * curl( div(tau) / rho )
+        ! call crossprod(vort,gradrho,gradp)
+        call curl(vort(:,:,:,1),vort(:,:,:,2),vort(:,:,:,3),gradp(:,:,:,1)/rho,gradp(:,:,:,2)/rho,gradp(:,:,:,3)/rho)
 
-        ! vort now has [ grad(rho) x div(tau) ]
-        vortx_visc = vortx_visc + integrate(vort(:,:,:,1)/rho)
-        vorty_visc = vorty_visc + integrate(vort(:,:,:,2)/rho)
-        vortz_visc = vortz_visc + integrate(vort(:,:,:,3)/rho)
+        ! vort now has [ curl( div(tau) / rho ) ]
+        vortx_visc = vortx_visc + integrate(vort(:,:,:,1)*rho)
+        vorty_visc = vorty_visc + integrate(vort(:,:,:,2)*rho)
+        vortz_visc = vortz_visc + integrate(vort(:,:,:,3)*rho)
         
         ! ---------------- Vortex gen metrics ----------------
       end do
