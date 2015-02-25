@@ -4,8 +4,8 @@ project(mir_pp Fortran)
 # Some compilers will work with earlier versions of CMake. (The Cray Compiler Environment requires CMake 2.8.5)
 cmake_minimum_required(VERSION 2.8.5)
 
-set (CMAKE_Fortran_COMPILER "ifort")
-set (CMAKE_Fortran_FLAGS_RELEASE "-O0  -g -traceback")
+set (CMAKE_Fortran_COMPILER "mpif90")
+set (CMAKE_Fortran_FLAGS_RELEASE "-O3 -free")
 
 #Print an error message on an attempt to build inside the source directory tree:
 IF ("${CMAKE_CURRENT_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_BINARY_DIR}")

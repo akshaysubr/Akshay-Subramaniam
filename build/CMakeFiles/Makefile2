@@ -38,37 +38,32 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/modern4/akshays/libs/cmake-2.8.12.2/bin/cmake
+CMAKE_COMMAND = /share/apps/cmake/2.8.12.2/bin/cmake
 
 # The command to remove a file.
-RM = /home/modern4/akshays/libs/cmake-2.8.12.2/bin/cmake -E remove -f
+RM = /share/apps/cmake/2.8.12.2/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
+# The program to use to edit the cache.
+CMAKE_EDIT_COMMAND = /share/apps/cmake/2.8.12.2/bin/ccmake
+
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/modern4/akshays/mir-pp/src
+CMAKE_SOURCE_DIR = /home/akshays/mpi-exercises/mir-pp/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/modern4/akshays/mir-pp/build
+CMAKE_BINARY_DIR = /home/akshays/mpi-exercises/mir-pp/build
 
 #=============================================================================
 # Directory level rules for directory prob
 
 # Convenience name for "all" pass in the directory.
-prob/all: prob/CMakeFiles/vort_eqterms.dir/all
-prob/all: prob/CMakeFiles/vortstats_allprocs.dir/all
-prob/all: prob/CMakeFiles/vortstats_lowmem.dir/all
-prob/all: prob/CMakeFiles/vortz_YZint.dir/all
-prob/all: prob/CMakeFiles/wall_torque.dir/all
+prob/all: prob/CMakeFiles/test_parallel.dir/all
 .PHONY : prob/all
 
 # Convenience name for "clean" pass in the directory.
-prob/clean: prob/CMakeFiles/vort_eqterms.dir/clean
-prob/clean: prob/CMakeFiles/vortstats_allprocs.dir/clean
-prob/clean: prob/CMakeFiles/vortstats_lowmem.dir/clean
-prob/clean: prob/CMakeFiles/vortz_YZint.dir/clean
-prob/clean: prob/CMakeFiles/wall_torque.dir/clean
+prob/clean: prob/CMakeFiles/test_parallel.dir/clean
 .PHONY : prob/clean
 
 # Convenience name for "preinstall" pass in the directory.
@@ -76,183 +71,39 @@ prob/preinstall:
 .PHONY : prob/preinstall
 
 #=============================================================================
-# Target rules for target prob/CMakeFiles/vort_eqterms.dir
+# Target rules for target prob/CMakeFiles/test_parallel.dir
 
 # All Build rule for target.
-prob/CMakeFiles/vort_eqterms.dir/all:
-	$(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/depend
-	$(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/requires
-	$(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/modern4/akshays/mir-pp/build/CMakeFiles  1 2 3 4 5 6
-	@echo "Built target vort_eqterms"
-.PHONY : prob/CMakeFiles/vort_eqterms.dir/all
+prob/CMakeFiles/test_parallel.dir/all:
+	$(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/depend
+	$(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/requires
+	$(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/build
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/akshays/mpi-exercises/mir-pp/build/CMakeFiles  1 2 3 4
+	@echo "Built target test_parallel"
+.PHONY : prob/CMakeFiles/test_parallel.dir/all
 
 # Include target in all.
-all: prob/CMakeFiles/vort_eqterms.dir/all
+all: prob/CMakeFiles/test_parallel.dir/all
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-prob/CMakeFiles/vort_eqterms.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 6
-	$(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/vort_eqterms.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 0
-.PHONY : prob/CMakeFiles/vort_eqterms.dir/rule
+prob/CMakeFiles/test_parallel.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/akshays/mpi-exercises/mir-pp/build/CMakeFiles 4
+	$(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/test_parallel.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/akshays/mpi-exercises/mir-pp/build/CMakeFiles 0
+.PHONY : prob/CMakeFiles/test_parallel.dir/rule
 
 # Convenience name for target.
-vort_eqterms: prob/CMakeFiles/vort_eqterms.dir/rule
-.PHONY : vort_eqterms
+test_parallel: prob/CMakeFiles/test_parallel.dir/rule
+.PHONY : test_parallel
 
 # clean rule for target.
-prob/CMakeFiles/vort_eqterms.dir/clean:
-	$(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/clean
-.PHONY : prob/CMakeFiles/vort_eqterms.dir/clean
+prob/CMakeFiles/test_parallel.dir/clean:
+	$(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/clean
+.PHONY : prob/CMakeFiles/test_parallel.dir/clean
 
 # clean rule for target.
-clean: prob/CMakeFiles/vort_eqterms.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target prob/CMakeFiles/vortstats_allprocs.dir
-
-# All Build rule for target.
-prob/CMakeFiles/vortstats_allprocs.dir/all:
-	$(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/depend
-	$(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/requires
-	$(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/modern4/akshays/mir-pp/build/CMakeFiles  7 8 9 10 11 12
-	@echo "Built target vortstats_allprocs"
-.PHONY : prob/CMakeFiles/vortstats_allprocs.dir/all
-
-# Include target in all.
-all: prob/CMakeFiles/vortstats_allprocs.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-prob/CMakeFiles/vortstats_allprocs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 6
-	$(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/vortstats_allprocs.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 0
-.PHONY : prob/CMakeFiles/vortstats_allprocs.dir/rule
-
-# Convenience name for target.
-vortstats_allprocs: prob/CMakeFiles/vortstats_allprocs.dir/rule
-.PHONY : vortstats_allprocs
-
-# clean rule for target.
-prob/CMakeFiles/vortstats_allprocs.dir/clean:
-	$(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/clean
-.PHONY : prob/CMakeFiles/vortstats_allprocs.dir/clean
-
-# clean rule for target.
-clean: prob/CMakeFiles/vortstats_allprocs.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target prob/CMakeFiles/vortstats_lowmem.dir
-
-# All Build rule for target.
-prob/CMakeFiles/vortstats_lowmem.dir/all:
-	$(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/depend
-	$(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/requires
-	$(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/modern4/akshays/mir-pp/build/CMakeFiles  13 14 15 16 17 18
-	@echo "Built target vortstats_lowmem"
-.PHONY : prob/CMakeFiles/vortstats_lowmem.dir/all
-
-# Include target in all.
-all: prob/CMakeFiles/vortstats_lowmem.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-prob/CMakeFiles/vortstats_lowmem.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 6
-	$(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/vortstats_lowmem.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 0
-.PHONY : prob/CMakeFiles/vortstats_lowmem.dir/rule
-
-# Convenience name for target.
-vortstats_lowmem: prob/CMakeFiles/vortstats_lowmem.dir/rule
-.PHONY : vortstats_lowmem
-
-# clean rule for target.
-prob/CMakeFiles/vortstats_lowmem.dir/clean:
-	$(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/clean
-.PHONY : prob/CMakeFiles/vortstats_lowmem.dir/clean
-
-# clean rule for target.
-clean: prob/CMakeFiles/vortstats_lowmem.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target prob/CMakeFiles/vortz_YZint.dir
-
-# All Build rule for target.
-prob/CMakeFiles/vortz_YZint.dir/all:
-	$(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/depend
-	$(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/requires
-	$(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/modern4/akshays/mir-pp/build/CMakeFiles  19 20 21 22 23 24
-	@echo "Built target vortz_YZint"
-.PHONY : prob/CMakeFiles/vortz_YZint.dir/all
-
-# Include target in all.
-all: prob/CMakeFiles/vortz_YZint.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-prob/CMakeFiles/vortz_YZint.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 6
-	$(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/vortz_YZint.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 0
-.PHONY : prob/CMakeFiles/vortz_YZint.dir/rule
-
-# Convenience name for target.
-vortz_YZint: prob/CMakeFiles/vortz_YZint.dir/rule
-.PHONY : vortz_YZint
-
-# clean rule for target.
-prob/CMakeFiles/vortz_YZint.dir/clean:
-	$(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/clean
-.PHONY : prob/CMakeFiles/vortz_YZint.dir/clean
-
-# clean rule for target.
-clean: prob/CMakeFiles/vortz_YZint.dir/clean
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target prob/CMakeFiles/wall_torque.dir
-
-# All Build rule for target.
-prob/CMakeFiles/wall_torque.dir/all:
-	$(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/depend
-	$(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/requires
-	$(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/modern4/akshays/mir-pp/build/CMakeFiles  25 26 27 28 29 30
-	@echo "Built target wall_torque"
-.PHONY : prob/CMakeFiles/wall_torque.dir/all
-
-# Include target in all.
-all: prob/CMakeFiles/wall_torque.dir/all
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-prob/CMakeFiles/wall_torque.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 6
-	$(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/wall_torque.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 0
-.PHONY : prob/CMakeFiles/wall_torque.dir/rule
-
-# Convenience name for target.
-wall_torque: prob/CMakeFiles/wall_torque.dir/rule
-.PHONY : wall_torque
-
-# clean rule for target.
-prob/CMakeFiles/wall_torque.dir/clean:
-	$(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/clean
-.PHONY : prob/CMakeFiles/wall_torque.dir/clean
-
-# clean rule for target.
-clean: prob/CMakeFiles/wall_torque.dir/clean
+clean: prob/CMakeFiles/test_parallel.dir/clean
 .PHONY : clean
 
 #=============================================================================

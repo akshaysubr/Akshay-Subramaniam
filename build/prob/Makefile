@@ -30,27 +30,30 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/modern4/akshays/libs/cmake-2.8.12.2/bin/cmake
+CMAKE_COMMAND = /share/apps/cmake/2.8.12.2/bin/cmake
 
 # The command to remove a file.
-RM = /home/modern4/akshays/libs/cmake-2.8.12.2/bin/cmake -E remove -f
+RM = /share/apps/cmake/2.8.12.2/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
+# The program to use to edit the cache.
+CMAKE_EDIT_COMMAND = /share/apps/cmake/2.8.12.2/bin/ccmake
+
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/modern4/akshays/mir-pp/src
+CMAKE_SOURCE_DIR = /home/akshays/mpi-exercises/mir-pp/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/modern4/akshays/mir-pp/build
+CMAKE_BINARY_DIR = /home/akshays/mpi-exercises/mir-pp/build
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running interactive CMake command-line interface..."
-	/home/modern4/akshays/libs/cmake-2.8.12.2/bin/cmake -i .
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/share/apps/cmake/2.8.12.2/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -60,7 +63,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/modern4/akshays/libs/cmake-2.8.12.2/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/share/apps/cmake/2.8.12.2/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -69,14 +72,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /home/modern4/akshays/mir-pp/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles /home/modern4/akshays/mir-pp/build/prob/CMakeFiles/progress.marks
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 0
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(CMAKE_COMMAND) -E cmake_progress_start /home/akshays/mpi-exercises/mir-pp/build/CMakeFiles /home/akshays/mpi-exercises/mir-pp/build/prob/CMakeFiles/progress.marks
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/akshays/mpi-exercises/mir-pp/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/clean
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/clean
 .PHONY : clean
 
 # The main clean target
@@ -85,188 +88,64 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/preinstall
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/preinstall
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /home/modern4/akshays/mir-pp/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
-prob/CMakeFiles/vort_eqterms.dir/rule:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/vort_eqterms.dir/rule
-.PHONY : prob/CMakeFiles/vort_eqterms.dir/rule
+prob/CMakeFiles/test_parallel.dir/rule:
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/test_parallel.dir/rule
+.PHONY : prob/CMakeFiles/test_parallel.dir/rule
 
 # Convenience name for target.
-vort_eqterms: prob/CMakeFiles/vort_eqterms.dir/rule
-.PHONY : vort_eqterms
+test_parallel: prob/CMakeFiles/test_parallel.dir/rule
+.PHONY : test_parallel
 
 # fast build rule for target.
-vort_eqterms/fast:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/build
-.PHONY : vort_eqterms/fast
-
-# Convenience name for target.
-prob/CMakeFiles/vortstats_allprocs.dir/rule:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/vortstats_allprocs.dir/rule
-.PHONY : prob/CMakeFiles/vortstats_allprocs.dir/rule
-
-# Convenience name for target.
-vortstats_allprocs: prob/CMakeFiles/vortstats_allprocs.dir/rule
-.PHONY : vortstats_allprocs
-
-# fast build rule for target.
-vortstats_allprocs/fast:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/build
-.PHONY : vortstats_allprocs/fast
-
-# Convenience name for target.
-prob/CMakeFiles/vortstats_lowmem.dir/rule:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/vortstats_lowmem.dir/rule
-.PHONY : prob/CMakeFiles/vortstats_lowmem.dir/rule
-
-# Convenience name for target.
-vortstats_lowmem: prob/CMakeFiles/vortstats_lowmem.dir/rule
-.PHONY : vortstats_lowmem
-
-# fast build rule for target.
-vortstats_lowmem/fast:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/build
-.PHONY : vortstats_lowmem/fast
-
-# Convenience name for target.
-prob/CMakeFiles/vortz_YZint.dir/rule:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/vortz_YZint.dir/rule
-.PHONY : prob/CMakeFiles/vortz_YZint.dir/rule
-
-# Convenience name for target.
-vortz_YZint: prob/CMakeFiles/vortz_YZint.dir/rule
-.PHONY : vortz_YZint
-
-# fast build rule for target.
-vortz_YZint/fast:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/build
-.PHONY : vortz_YZint/fast
-
-# Convenience name for target.
-prob/CMakeFiles/wall_torque.dir/rule:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/wall_torque.dir/rule
-.PHONY : prob/CMakeFiles/wall_torque.dir/rule
-
-# Convenience name for target.
-wall_torque: prob/CMakeFiles/wall_torque.dir/rule
-.PHONY : wall_torque
-
-# fast build rule for target.
-wall_torque/fast:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/build
-.PHONY : wall_torque/fast
+test_parallel/fast:
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/build
+.PHONY : test_parallel/fast
 
 __/driver/IO.o: __/driver/IO.f90.o
 .PHONY : __/driver/IO.o
 
 # target to build an object file
 __/driver/IO.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/__/driver/IO.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/__/driver/IO.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/__/driver/IO.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/__/driver/IO.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/__/driver/IO.f90.o
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/__/driver/IO.f90.o
 .PHONY : __/driver/IO.f90.o
-
-__/driver/functions.o: __/driver/functions.f90.o
-.PHONY : __/driver/functions.o
-
-# target to build an object file
-__/driver/functions.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/__/driver/functions.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/__/driver/functions.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/__/driver/functions.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/__/driver/functions.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/__/driver/functions.f90.o
-.PHONY : __/driver/functions.f90.o
 
 __/driver/globals.o: __/driver/globals.f90.o
 .PHONY : __/driver/globals.o
 
 # target to build an object file
 __/driver/globals.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/__/driver/globals.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/__/driver/globals.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/__/driver/globals.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/__/driver/globals.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/__/driver/globals.f90.o
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/__/driver/globals.f90.o
 .PHONY : __/driver/globals.f90.o
 
-__/driver/interfaces.o: __/driver/interfaces.f90.o
-.PHONY : __/driver/interfaces.o
+__/driver/mpi.o: __/driver/mpi.f90.o
+.PHONY : __/driver/mpi.o
 
 # target to build an object file
-__/driver/interfaces.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/__/driver/interfaces.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/__/driver/interfaces.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/__/driver/interfaces.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/__/driver/interfaces.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/__/driver/interfaces.f90.o
-.PHONY : __/driver/interfaces.f90.o
+__/driver/mpi.f90.o:
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/__/driver/mpi.f90.o
+.PHONY : __/driver/mpi.f90.o
 
-__/driver/operators.o: __/driver/operators.f90.o
-.PHONY : __/driver/operators.o
+test_parallel.o: test_parallel.f90.o
+.PHONY : test_parallel.o
 
 # target to build an object file
-__/driver/operators.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/__/driver/operators.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/__/driver/operators.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/__/driver/operators.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/__/driver/operators.f90.o
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/__/driver/operators.f90.o
-.PHONY : __/driver/operators.f90.o
-
-vort_eqterms.o: vort_eqterms.f90.o
-.PHONY : vort_eqterms.o
-
-# target to build an object file
-vort_eqterms.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/vort_eqterms.f90.o
-.PHONY : vort_eqterms.f90.o
-
-vortstats_allprocs.o: vortstats_allprocs.f90.o
-.PHONY : vortstats_allprocs.o
-
-# target to build an object file
-vortstats_allprocs.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/vortstats_allprocs.f90.o
-.PHONY : vortstats_allprocs.f90.o
-
-vortstats_lowmem.o: vortstats_lowmem.f90.o
-.PHONY : vortstats_lowmem.o
-
-# target to build an object file
-vortstats_lowmem.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/vortstats_lowmem.f90.o
-.PHONY : vortstats_lowmem.f90.o
-
-vortz_YZint.o: vortz_YZint.f90.o
-.PHONY : vortz_YZint.o
-
-# target to build an object file
-vortz_YZint.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/vortz_YZint.f90.o
-.PHONY : vortz_YZint.f90.o
-
-wall_torque.o: wall_torque.f90.o
-.PHONY : wall_torque.o
-
-# target to build an object file
-wall_torque.f90.o:
-	cd /home/modern4/akshays/mir-pp/build && $(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/wall_torque.f90.o
-.PHONY : wall_torque.f90.o
+test_parallel.f90.o:
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/test_parallel.f90.o
+.PHONY : test_parallel.f90.o
 
 # Help Target
 help:
@@ -276,21 +155,11 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... vort_eqterms"
-	@echo "... vortstats_allprocs"
-	@echo "... vortstats_lowmem"
-	@echo "... vortz_YZint"
-	@echo "... wall_torque"
+	@echo "... test_parallel"
 	@echo "... __/driver/IO.o"
-	@echo "... __/driver/functions.o"
 	@echo "... __/driver/globals.o"
-	@echo "... __/driver/interfaces.o"
-	@echo "... __/driver/operators.o"
-	@echo "... vort_eqterms.o"
-	@echo "... vortstats_allprocs.o"
-	@echo "... vortstats_lowmem.o"
-	@echo "... vortz_YZint.o"
-	@echo "... wall_torque.o"
+	@echo "... __/driver/mpi.o"
+	@echo "... test_parallel.o"
 .PHONY : help
 
 
@@ -302,6 +171,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /home/modern4/akshays/mir-pp/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(CMAKE_COMMAND) -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

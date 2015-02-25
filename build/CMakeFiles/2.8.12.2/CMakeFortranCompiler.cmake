@@ -1,7 +1,7 @@
 set(CMAKE_Fortran_COMPILER "/usr/bin/f95")
 set(CMAKE_Fortran_COMPILER_ARG1 "")
 set(CMAKE_Fortran_COMPILER_ID "GNU")
-set(CMAKE_Fortran_PLATFORM_ID "Linux")
+set(CMAKE_Fortran_PLATFORM_ID "")
 
 set(CMAKE_AR "/usr/bin/ar")
 set(CMAKE_RANLIB "/usr/bin/ranlib")
@@ -35,7 +35,7 @@ endif()
 
 # Save compiler ABI information.
 set(CMAKE_Fortran_SIZEOF_DATA_PTR "8")
-set(CMAKE_Fortran_COMPILER_ABI "ELF")
+set(CMAKE_Fortran_COMPILER_ABI "")
 set(CMAKE_Fortran_LIBRARY_ARCHITECTURE "")
 
 if(CMAKE_Fortran_SIZEOF_DATA_PTR AND NOT CMAKE_SIZEOF_VOID_P)
@@ -51,5 +51,5 @@ if(CMAKE_Fortran_LIBRARY_ARCHITECTURE)
 endif()
 
 set(CMAKE_Fortran_IMPLICIT_LINK_LIBRARIES "gfortranbegin;gfortran;m;c")
-set(CMAKE_Fortran_IMPLICIT_LINK_DIRECTORIES "/usr/lib/gcc/x86_64-redhat-linux/4.1.2;/usr/lib64;/lib64")
+set(CMAKE_Fortran_IMPLICIT_LINK_DIRECTORIES "/usr/lib/gcc/x86_64-redhat-linux/4.4.7;/usr/lib64;/lib64;/usr/lib")
 set(CMAKE_Fortran_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

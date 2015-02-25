@@ -1,4 +1,4 @@
-# Install script for directory: /home/modern4/akshays/mir-pp/src
+# Install script for directory: /home/akshays/mpi-exercises/mir-pp/src
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,7 +34,7 @@ ENDIF(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 
 IF(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  INCLUDE("/home/modern4/akshays/mir-pp/build/prob/cmake_install.cmake")
+  INCLUDE("/home/akshays/mpi-exercises/mir-pp/build/prob/cmake_install.cmake")
 
 ENDIF(NOT CMAKE_INSTALL_LOCAL_ONLY)
 
@@ -44,7 +44,7 @@ ELSE(CMAKE_INSTALL_COMPONENT)
   SET(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
 ENDIF(CMAKE_INSTALL_COMPONENT)
 
-FILE(WRITE "/home/modern4/akshays/mir-pp/build/${CMAKE_INSTALL_MANIFEST}" "")
+FILE(WRITE "/home/akshays/mpi-exercises/mir-pp/build/${CMAKE_INSTALL_MANIFEST}" "")
 FOREACH(file ${CMAKE_INSTALL_MANIFEST_FILES})
-  FILE(APPEND "/home/modern4/akshays/mir-pp/build/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
+  FILE(APPEND "/home/akshays/mpi-exercises/mir-pp/build/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
 ENDFOREACH(file)

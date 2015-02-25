@@ -1,4 +1,4 @@
-# Install script for directory: /home/modern4/akshays/mir-pp/src/prob
+# Install script for directory: /home/akshays/mpi-exercises/mir-pp/src/prob
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)

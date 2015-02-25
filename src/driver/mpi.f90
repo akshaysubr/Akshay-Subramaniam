@@ -1,0 +1,41 @@
+module mpi
+
+    logical :: master=.FALSE.                     ! Proc is master?
+    logical :: x1proc=.FALSE.                     ! Proc is on left x boundary?
+    logical :: xnproc=.FALSE.                     ! Proc is on right x boundary?
+    logical :: y1proc=.FALSE.                     ! Proc is on left y boundary?
+    logical :: ynproc=.FALSE.                     ! Proc is on right y boundary?
+    logical :: z1proc=.FALSE.                     ! Proc is on left z boundary?
+    logical :: znproc=.FALSE.                     ! Proc is on right z boundary?
+
+    integer :: nprocs                             ! Total number of processors
+    integer :: npx                                ! Total no of x processors
+    integer :: npy                                ! Total no of y processors
+    integer :: npz                                ! Total no of z processors
+    integer :: proc                               ! Rank of this processor
+    integer :: xproc                              ! x rank of this processor
+    integer :: yproc                              ! y rank of this processor
+    integer :: zproc                              ! z rank of this processor
+    integer :: proc_xr                            ! Proc on right in x-direction
+    integer :: proc_xl                            ! Proc on left in x-direction
+    integer :: proc_yr                            ! Proc on right in y-direction
+    integer :: proc_yl                            ! Proc on left in y-direction
+    integer :: proc_zr                            ! Proc on right in z-direction
+    integer :: proc_zl                            ! Proc on left in z-direction
+
+    integer :: bcount_x
+    integer :: bcount_y
+    integer :: bcount_z
+
+contains
+
+    function GetProcID(xp,yp,zp) result(p)
+        implicit none
+        integer, intent(in) :: xp,yp,zp     ! Zero-based indexing as used by MPI
+        integer :: p
+
+        p = (zp*npy + yp)*npx + xp
+
+    end function GetProcID
+
+end module mpi

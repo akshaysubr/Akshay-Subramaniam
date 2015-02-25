@@ -3,53 +3,67 @@ module globals
     integer, parameter :: flen=120
     logical :: verbose=.FALSE.
     logical :: lowmem=.FALSE.
+    logical :: parallel=.TRUE.
 
-    integer :: px
-    integer :: py
-    integer :: pz
-    integer :: nprocs
+    integer :: px                                              ! No of procs in x
+    integer :: py                                              ! No of procs in y
+    integer :: pz                                              ! No of procs in z
+    integer :: nprocs                                          ! Total no of procs
 
-    integer :: nx
-    integer :: ny
-    integer :: nz
-    integer :: ax
-    integer :: ay
-    integer :: az
-    double precision :: dx
-    double precision :: dy
-    double precision :: dz
+    integer :: ppx                                             ! No of viz x-procs per x proc 
+    integer :: ppy                                             ! No of viz y-procs per y proc 
+    integer :: ppz                                             ! No of viz z-procs per z proc 
+    
+    integer, parameter :: nb=3                                 ! No of boundary slices on each side (Now equal to maximum derivative required)
+    integer :: nx                                              ! Total x points
+    integer :: ny                                              ! Total y points
+    integer :: nz                                              ! Total z points
+    integer :: ax                                              ! Total x points per proc
+    integer :: ay                                              ! Total y points per proc
+    integer :: az                                              ! Total z points per proc
+    integer :: ax1                                             ! First interior x point index per proc
+    integer :: ay1                                             ! First interior y point index per proc
+    integer :: az1                                             ! First interior z point index per proc
+    integer :: axn                                             ! Last interior x point index per proc
+    integer :: ayn                                             ! Last interior y point index per proc
+    integer :: azn                                             ! Last interior z point index per proc
+    double precision :: dx                                     ! Grid spacing in x direction
+    double precision :: dy                                     ! Grid spacing in y direction
+    double precision :: dz                                     ! Grid spacing in z direction
 
-    real(kind=4) :: dt
-    integer :: t1
-    integer :: tf
-    integer :: nsteps
+! ============== INPUT VARIABLES ====================
+    character(len=flen) :: jobdir                              ! Job directory with all viz files 
+    real(kind=4) :: dt                                         ! Time between viz dumps
+    integer :: t1                                              ! First viz dump to be processed
+    integer :: tf                                              ! Last viz dump to be processed
+! ============== INPUT VARIABLES ====================
+    
+    integer :: nsteps                                          ! Total number of available viz dumps
 
-    integer, dimension(:,:), allocatable :: procmap
-    integer, dimension(:,:,:), allocatable :: invprocmap
+    integer, dimension(:,:), allocatable :: procmap            ! Processor to grid mapping
+    integer, dimension(:,:,:), allocatable :: invprocmap       ! Grid to processor mapping
 
-    character(len=flen) :: jobdir
-
-    integer :: ndim
-    integer :: nvars
-    integer :: ns
-    integer, parameter :: uInd=1
-    integer, parameter :: vInd=2
-    integer, parameter :: wInd=3
-    integer, parameter :: rhoInd=4
-    integer, parameter :: eInd=5
-    integer, parameter :: pInd=6
-    integer, parameter :: TInd=7
-    integer, parameter :: cInd=8
-    integer, parameter :: muInd=9
-    integer, parameter :: bulkInd=10
-    integer, parameter :: ktcInd=11
-    integer, parameter :: DiffInd=12
-    integer, parameter :: Y1Ind=13
+    integer :: ndim                                            ! Total number of variables (including coordinates)
+    integer :: nvars                                           ! Total number of flow variables
+    integer :: ns                                              ! Number of species
+    integer, parameter :: uInd=1                               ! x-velocity Index
+    integer, parameter :: vInd=2                               ! y-velocity Index
+    integer, parameter :: wInd=3                               ! z-velocity Index
+    integer, parameter :: rhoInd=4                             ! Density Index
+    integer, parameter :: eInd=5                               ! Energy Index
+    integer, parameter :: pInd=6                               ! Pressure Index
+    integer, parameter :: TInd=7                               ! Temp Index
+    integer, parameter :: cInd=8                               ! Speed of sound Index
+    integer, parameter :: muInd=9                              ! Shear visc Index
+    integer, parameter :: bulkInd=10                           ! Bulk visc Index
+    integer, parameter :: ktcInd=11                            ! Thermal cond Index
+    integer, parameter :: DiffInd=12                           ! Species diffusion Index
+    integer, parameter :: Y1Ind=13                             ! Species mass-fraction Index
 
     integer :: ncoords=3
-    integer :: xInd
-    integer :: yInd
-    integer :: zInd
+    integer :: xInd                                            ! x-coordinate Index
+    integer :: yInd                                            ! y-coordinate Index
+    integer :: zInd                                            ! z-coordinate Index
 
     real(kind=4), dimension(:,:,:,:), allocatable, target :: iodata
     real(kind=4), dimension(:,:,:)  ,  pointer :: u             ! x velocity component
@@ -78,14 +92,63 @@ end module globals
 ! Subroutine to setup all the global variables
 subroutine setup_globals
 
-    use globals, only: nx,ny,nz,ax,ay,az,px,py,pz,t1,tf,nsteps
+    use globals, only: nx,ny,nz,nb,px,py,pz,ppx,ppy,ppz,t1,tf,nsteps
+    use globals, only: ax,ay,az,ax1,axn,ay1,ayn,az1,azn
     use globals, only: xInd,yInd,zInd,ndim,nvars,ns,iodata
+    use globals, only: parallel,lowmem
+    use mpi, only: x1proc,xnproc,y1proc,ynproc,z1proc,znproc,bcount_x,bcount_y,bcount_z
     implicit none
 
+    ! If parallel job, set the lowmem flag to true
+    if (parallel) then
+        lowmem = .TRUE.
+        call setup_mpi
+    end if
+
     ! Set points per processor
-    ax = nx/px
-    ay = ny/py
-    az = nz/pz
+    ax = ppx * (nx/px) + 2*nb
+    ay = ppy * (ny/py) + 2*nb
+    az = ppz * (nz/pz) + 2*nb
+
+    ax1 = nb+1
+    axn = ax-nb
+    ay1 = nb+1
+    ayn = ay-nb
+    az1 = nb+1
+    azn = az-nb
+   
+    ! Case for boundary procs
+    if (x1proc) then
+        ax = ax - nb
+        ax1 = 1
+        axn = ax-nb
+    end if
+    if (xnproc) then
+        ax = ax - nb
+        axn = ax
+    end if
+    if (y1proc) then
+        ay = ay - nb
+        ay1 = 1
+        ayn = ay-nb
+    end if
+    if (ynproc) then
+        ay = ay - nb
+        ayn = ay
+    end if
+    if (z1proc) then
+        az = az - nb
+        az1 = 1
+        azn = az-nb
+    end if
+    if (znproc) then
+        az = az - nb
+        azn = az
+    end if
+
+    bcount_x = nb*ay*az
+    bcount_y = nb*ax*az
+    bcount_z = nb*ax*ay
 
     ! Set indices for coords
     xInd = nvars+ns+1
@@ -95,6 +158,20 @@ subroutine setup_globals
     ! Set total variable dimensionality
     ndim = zInd
 
+    ! Check validity of processor arrangement. Only integer number of viz procs
+    ! per compute proc allowed.
+    if ( MOD(px,ppx) .NE. 0 ) then
+        print*,'ERROR: Invalid number of viz x-procs',ppx,' per proc. Must be a multiple of total x procs, ',px
+        stop
+    else if ( MOD(py,ppy) .NE. 0 ) then
+        print*,'ERROR: Invalid number of viz x-procs',ppx,' per proc. Must be a multiple of total x procs, ',px
+        stop
+    else if ( MOD(pz,ppz) .NE. 0 ) then
+        print*,'ERROR: Invalid number of viz x-procs',ppx,' per proc. Must be a multiple of total x procs, ',px
+        stop
+    end if
+
+    ! Check validity of start and end viz step values
     if (t1 .gt. tf) then
         print*,'ERROR: Invalid initial and final times (t1 > tf). Check input file and rerun'
         stop
@@ -159,3 +236,45 @@ subroutine setup_pointers
     z_c  => iodata(:,:,:,    zInd)
 
 end subroutine setup_pointers
+
+subroutine setup_mpi
+    use globals, only: nb,ax,ay,az,px,py,pz,ppx,ppy,ppz,procmap
+    use mpi, only: proc,nprocs,xproc,yproc,zproc,npx,npy,npz
+    use mpi, only: master,x1proc,xnproc,y1proc,ynproc,z1proc,znproc
+    use mpi, only: proc_xl,proc_xr,proc_yl,proc_yr,proc_zl,proc_zr,GetProcID
+    implicit none
+    integer :: xp,yp,zp
+
+    npx = px/ppx
+    npy = py/ppy
+    npz = pz/ppz
+
+    if ( npx*npy*npz .ne. nprocs ) then
+        print*,'ERROR: Total number of procs not equal to product of procs in each direction. Check ppx,ppy,ppz values'
+        print*,'ppx,ppy,ppz = ',ppx,ppy,ppz
+        print*,' px, py, pz = ',px,py,pz
+        stop
+    end if
+
+    xproc = MOD( proc,npx )
+    yproc = MOD( proc/npx,npy )
+    zproc = (proc/npx)/npy
+
+    if (  proc == 0 ) master = .TRUE.
+
+    if ( xproc == 0 ) x1proc = .TRUE.
+    if ( yproc == 0 ) y1proc = .TRUE.
+    if ( zproc == 0 ) z1proc = .TRUE.
+
+    if ( xproc == npx-1 ) xnproc = .TRUE.
+    if ( yproc == npy-1 ) ynproc = .TRUE.
+    if ( zproc == npz-1 ) znproc = .TRUE.
+
+    if (.not. x1proc) proc_xl = GetProcID(xproc-1,yproc,zproc)
+    if (.not. xnproc) proc_xr = GetProcID(xproc+1,yproc,zproc)
+    if (.not. y1proc) proc_yl = GetProcID(xproc,yproc-1,zproc)
+    if (.not. ynproc) proc_yr = GetProcID(xproc,yproc+1,zproc)
+    if (.not. z1proc) proc_zl = GetProcID(xproc,yproc,zproc-1)
+    if (.not. znproc) proc_zr = GetProcID(xproc,yproc,zproc+1)
+
+end subroutine setup_mpi

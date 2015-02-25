@@ -1,5 +1,8 @@
 &INPUT
-jobdir = '/home/modern4/akshays/RM_SLIP_OBLQ/RM_SLIP_OBLQ_064'
+jobdir = '/scratch/akshays/miranda/TAMU/TEST_SLIP_THICK_064'
+ppx = 8
+ppy = 2
+ppz = 2
 t1 = 0
 tf = 60
 dt = 1.0D-4

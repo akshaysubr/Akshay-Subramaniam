@@ -2,7 +2,7 @@
 ! Also sets the global variables and allocates the iodata array
 subroutine setup_postprocess
 
-    use globals, only: px,py,pz,nprocs,procmap,invprocmap,lowmem
+    use globals, only: px,py,pz,ppx,ppy,ppz,nprocs,procmap,invprocmap,lowmem
     use globals, only: nx,ny,nz,ns,nvars,ndim,xInd,yInd,zInd
     use globals, only: ax,ay,az,dx,dy,dz 
     use globals, only: t1,tf,dt,nsteps
@@ -16,7 +16,7 @@ subroutine setup_postprocess
     character(len=90) :: inputFile,procmapfile,plotmir
     character(len=90) :: dumchar
 
-    NAMELIST /INPUT/ jobdir, t1, tf, dt, verbose
+    NAMELIST /INPUT/ jobdir, ppx, ppy, ppz, t1, tf, dt, verbose
 
     ioUnit = 17
 
@@ -247,3 +247,89 @@ subroutine read_thisProc_grid(xp,yp,zp)
     deallocate( procgrid )
 
 end subroutine read_thisProc_grid
+
+subroutine read_parallel_data(step)
+    use globals, only: nx,ny,nz,ax,ay,az,ax1,axn,ay1,ayn,az1,azn,nb,px,py,pz,ppx,ppy,ppz,ns,ndim,iodata,verbose,jobdir,flen,invprocmap
+    use mpi, only: xproc,yproc,zproc
+    implicit none
+    integer, intent(in) :: step
+    
+    integer :: p,xp,yp,zp
+    integer :: x1,xn,y1,yn,z1,zn
+    integer :: pUnit,var
+    character(len=flen) :: vizdir
+    character(len=flen) :: procfile
+
+    pUnit = 27
+    
+    WRITE(vizdir,'(2A,I4.4)') TRIM(jobdir),'/vis',step
+
+    do xp=xproc*ppx,(xproc+1)*ppx-1
+        do yp=yproc*ppy,(yproc+1)*ppy-1
+            do zp=zproc*ppz,(zproc+1)*ppz-1
+
+                ! Get processor ID
+                p = invprocmap(xp+1,yp+1,zp+1)
+
+                x1 = ax1 + xp*nx/px
+                xn = x1 + nx/px - 1
+                y1 = ay1 + yp*ny/py
+                yn = y1 + ny/py - 1
+                z1 = az1 + zp*nz/pz
+                zn = z1 + nz/pz - 1
+
+                ! Read in variables
+                WRITE(procfile,'(2A,I6.6)') TRIM(vizdir),'/p',p
+                if(verbose) print*,'Reading file: ',TRIM(procfile)
+                OPEN(UNIT=pUnit,FILE=TRIM(procfile),FORM='UNFORMATTED',STATUS='OLD')
+                DO var=1,ndim-3
+                    READ(pUnit) iodata(x1:xn,y1:yn,z1:zn,var)
+                END DO
+                CLOSE(pUnit)
+
+            end do
+        end do
+    end do
+
+end subroutine read_parallel_data
+
+subroutine read_parallel_grid
+    use globals, only: nx,ny,nz,ax,ay,az,ax1,axn,ay1,ayn,az1,azn,nb,px,py,pz,ppx,ppy,ppz,ns,ndim,iodata,verbose,jobdir,flen,invprocmap
+    use mpi, only: xproc,yproc,zproc
+    implicit none
+    
+    integer :: p,xp,yp,zp
+    integer :: x1,xn,y1,yn,z1,zn
+    integer :: pUnit,var
+    character(len=flen) :: procfile
+
+    pUnit = 27
+    
+    do xp=xproc*ppx,(xproc+1)*ppx-1
+        do yp=yproc*ppy,(yproc+1)*ppy-1
+            do zp=zproc*ppz,(zproc+1)*ppz-1
+
+                ! Get processor ID
+                p = invprocmap(xp+1,yp+1,zp+1)
+
+                x1 = ax1 + xp*nx/px
+                xn = x1 + nx/px - 1
+                y1 = ay1 + yp*ny/py
+                yn = y1 + ny/py - 1
+                z1 = az1 + zp*nz/pz
+                zn = z1 + nz/pz - 1
+
+                ! Read in the grid
+                WRITE(procfile,'(2A,I6.6)') TRIM(jobdir),'/grid/p',p
+                if (verbose) print*,'Reading file: ',TRIM(procfile)
+                OPEN(UNIT=pUnit,FILE=TRIM(procfile),FORM='UNFORMATTED',STATUS='OLD')
+                DO var=1,3
+                    READ(pUnit) iodata(x1:xn,y1:yn,z1:zn,ndim-3+var)
+                END DO
+                CLOSE(pUnit)
+
+            end do
+        end do
+    end do
+
+end subroutine read_parallel_grid

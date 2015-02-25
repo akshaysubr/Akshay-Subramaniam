@@ -30,27 +30,30 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /home/modern4/akshays/libs/cmake-2.8.12.2/bin/cmake
+CMAKE_COMMAND = /share/apps/cmake/2.8.12.2/bin/cmake
 
 # The command to remove a file.
-RM = /home/modern4/akshays/libs/cmake-2.8.12.2/bin/cmake -E remove -f
+RM = /share/apps/cmake/2.8.12.2/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
 
+# The program to use to edit the cache.
+CMAKE_EDIT_COMMAND = /share/apps/cmake/2.8.12.2/bin/ccmake
+
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/modern4/akshays/mir-pp/src
+CMAKE_SOURCE_DIR = /home/akshays/mpi-exercises/mir-pp/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/modern4/akshays/mir-pp/build
+CMAKE_BINARY_DIR = /home/akshays/mpi-exercises/mir-pp/build
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running interactive CMake command-line interface..."
-	/home/modern4/akshays/libs/cmake-2.8.12.2/bin/cmake -i .
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/share/apps/cmake/2.8.12.2/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -60,7 +63,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/home/modern4/akshays/libs/cmake-2.8.12.2/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/share/apps/cmake/2.8.12.2/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -69,9 +72,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles /home/modern4/akshays/mir-pp/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/akshays/mpi-exercises/mir-pp/build/CMakeFiles /home/akshays/mpi-exercises/mir-pp/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/modern4/akshays/mir-pp/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/akshays/mpi-exercises/mir-pp/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -99,69 +102,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named vort_eqterms
+# Target rules for targets named test_parallel
 
 # Build rule for target.
-vort_eqterms: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 vort_eqterms
-.PHONY : vort_eqterms
+test_parallel: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test_parallel
+.PHONY : test_parallel
 
 # fast build rule for target.
-vort_eqterms/fast:
-	$(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/build
-.PHONY : vort_eqterms/fast
-
-#=============================================================================
-# Target rules for targets named vortstats_allprocs
-
-# Build rule for target.
-vortstats_allprocs: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 vortstats_allprocs
-.PHONY : vortstats_allprocs
-
-# fast build rule for target.
-vortstats_allprocs/fast:
-	$(MAKE) -f prob/CMakeFiles/vortstats_allprocs.dir/build.make prob/CMakeFiles/vortstats_allprocs.dir/build
-.PHONY : vortstats_allprocs/fast
-
-#=============================================================================
-# Target rules for targets named vortstats_lowmem
-
-# Build rule for target.
-vortstats_lowmem: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 vortstats_lowmem
-.PHONY : vortstats_lowmem
-
-# fast build rule for target.
-vortstats_lowmem/fast:
-	$(MAKE) -f prob/CMakeFiles/vortstats_lowmem.dir/build.make prob/CMakeFiles/vortstats_lowmem.dir/build
-.PHONY : vortstats_lowmem/fast
-
-#=============================================================================
-# Target rules for targets named vortz_YZint
-
-# Build rule for target.
-vortz_YZint: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 vortz_YZint
-.PHONY : vortz_YZint
-
-# fast build rule for target.
-vortz_YZint/fast:
-	$(MAKE) -f prob/CMakeFiles/vortz_YZint.dir/build.make prob/CMakeFiles/vortz_YZint.dir/build
-.PHONY : vortz_YZint/fast
-
-#=============================================================================
-# Target rules for targets named wall_torque
-
-# Build rule for target.
-wall_torque: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 wall_torque
-.PHONY : wall_torque
-
-# fast build rule for target.
-wall_torque/fast:
-	$(MAKE) -f prob/CMakeFiles/wall_torque.dir/build.make prob/CMakeFiles/wall_torque.dir/build
-.PHONY : wall_torque/fast
+test_parallel/fast:
+	$(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/build
+.PHONY : test_parallel/fast
 
 # Help Target
 help:
@@ -171,11 +122,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... vort_eqterms"
-	@echo "... vortstats_allprocs"
-	@echo "... vortstats_lowmem"
-	@echo "... vortz_YZint"
-	@echo "... wall_torque"
+	@echo "... test_parallel"
 .PHONY : help
 
 

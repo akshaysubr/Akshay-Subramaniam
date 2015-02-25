@@ -1,1 +1,0 @@
-ifort      CMakeFiles/vortstats_lowmem.dir/vortstats_lowmem.f90.o CMakeFiles/vortstats_lowmem.dir/__/driver/IO.f90.o CMakeFiles/vortstats_lowmem.dir/__/driver/globals.f90.o CMakeFiles/vortstats_lowmem.dir/__/driver/operators.f90.o CMakeFiles/vortstats_lowmem.dir/__/driver/functions.f90.o CMakeFiles/vortstats_lowmem.dir/__/driver/interfaces.f90.o  -o vortstats_lowmem -rdynamic 
