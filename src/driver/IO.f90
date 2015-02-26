@@ -250,7 +250,7 @@ end subroutine read_thisProc_grid
 
 subroutine read_parallel_data(step)
     use globals, only: nx,ny,nz,ax,ay,az,ax1,axn,ay1,ayn,az1,azn,nb,px,py,pz,ppx,ppy,ppz,ns,ndim,iodata,verbose,jobdir,flen,invprocmap
-    use mpi, only: xproc,yproc,zproc
+    use mpi, only: proc,xproc,yproc,zproc
     implicit none
     integer, intent(in) :: step
     
@@ -271,11 +271,11 @@ subroutine read_parallel_data(step)
                 ! Get processor ID
                 p = invprocmap(xp+1,yp+1,zp+1)
 
-                x1 = ax1 + xp*nx/px
+                x1 = ax1 + (xp-xproc*ppx)*nx/px
                 xn = x1 + nx/px - 1
-                y1 = ay1 + yp*ny/py
+                y1 = ay1 + (yp-yproc*ppy)*ny/py
                 yn = y1 + ny/py - 1
-                z1 = az1 + zp*nz/pz
+                z1 = az1 + (zp-zproc*ppz)*nz/pz
                 zn = z1 + nz/pz - 1
 
                 ! Read in variables
@@ -312,11 +312,11 @@ subroutine read_parallel_grid
                 ! Get processor ID
                 p = invprocmap(xp+1,yp+1,zp+1)
 
-                x1 = ax1 + xp*nx/px
+                x1 = ax1 + (xp-xproc*ppx)*nx/px
                 xn = x1 + nx/px - 1
-                y1 = ay1 + yp*ny/py
+                y1 = ay1 + (yp-yproc*ppy)*ny/py
                 yn = y1 + ny/py - 1
-                z1 = az1 + zp*nz/pz
+                z1 = az1 + (zp-zproc*ppz)*nz/pz
                 zn = z1 + nz/pz - 1
 
                 ! Read in the grid

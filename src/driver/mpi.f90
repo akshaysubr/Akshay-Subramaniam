@@ -1,5 +1,13 @@
 module mpi
 
+    implicit none
+
+    include 'mpif.h'
+
+    integer :: comm                               ! MPI_COMM_WORLD
+    integer, parameter :: stat_size=MPI_STATUS_SIZE
+    integer, parameter :: datatype=MPI_REAL
+
     logical :: master=.FALSE.                     ! Proc is master?
     logical :: x1proc=.FALSE.                     ! Proc is on left x boundary?
     logical :: xnproc=.FALSE.                     ! Proc is on right x boundary?
@@ -26,6 +34,12 @@ module mpi
     integer :: bcount_x
     integer :: bcount_y
     integer :: bcount_z
+
+    integer :: reqSend_xl,reqSend_xr,reqSend_yl,reqSend_yr,reqSend_zl,reqSend_zr
+    integer :: reqRecv_xl,reqRecv_xr,reqRecv_yl,reqRecv_yr,reqRecv_zl,reqRecv_zr
+
+    real(kind=4), dimension(:,:,:), allocatable :: sendBuf_x, sendBuf_y, sendBuf_z
+    real(kind=4), dimension(:,:,:), allocatable :: recvBuf_x, recvBuf_y, recvBuf_z
 
 contains
 
