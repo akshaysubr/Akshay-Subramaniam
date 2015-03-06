@@ -204,19 +204,27 @@ end subroutine allocate_allProcs
 subroutine allocate_singleProc
 
     use globals, only: nb,ax,ay,az,ndim,iodata,parallel
-    use mpi, only: sendBuf_x, sendBuf_y, sendBuf_z
-    use mpi, only: recvBuf_x, recvBuf_y, recvBuf_z
+    use mpi, only: sendBuf_xl, sendBuf_yl, sendBuf_zl
+    use mpi, only: sendBuf_xr, sendBuf_yr, sendBuf_zr
+    use mpi, only: recvBuf_xl, recvBuf_yl, recvBuf_zl
+    use mpi, only: recvBuf_xr, recvBuf_yr, recvBuf_zr
     implicit none
 
     if (.not. allocated(iodata)) allocate( iodata(ax,ay,az,ndim) )
     
-    if (.not.allocated(sendBuf_x)) allocate( sendBuf_x(nb,ay,az) )
-    if (.not.allocated(sendBuf_y)) allocate( sendBuf_y(ax,nb,az) )
-    if (.not.allocated(sendBuf_z)) allocate( sendBuf_z(ax,ay,nb) )
+    if (.not.allocated(sendBuf_xl)) allocate( sendBuf_xl(nb,ay,az,ndim) )
+    if (.not.allocated(sendBuf_xr)) allocate( sendBuf_xr(nb,ay,az,ndim) )
+    if (.not.allocated(sendBuf_yl)) allocate( sendBuf_yl(ax,nb,az,ndim) )
+    if (.not.allocated(sendBuf_yr)) allocate( sendBuf_yr(ax,nb,az,ndim) )
+    if (.not.allocated(sendBuf_zl)) allocate( sendBuf_zl(ax,ay,nb,ndim) )
+    if (.not.allocated(sendBuf_zr)) allocate( sendBuf_zr(ax,ay,nb,ndim) )
 
-    if (.not.allocated(recvBuf_x)) allocate( recvBuf_x(nb,ay,az) )
-    if (.not.allocated(recvBuf_y)) allocate( recvBuf_y(ax,nb,az) )
-    if (.not.allocated(recvBuf_z)) allocate( recvBuf_z(ax,ay,nb) )
+    if (.not.allocated(recvBuf_xl)) allocate( recvBuf_xl(nb,ay,az,ndim) )
+    if (.not.allocated(recvBuf_xr)) allocate( recvBuf_xr(nb,ay,az,ndim) )
+    if (.not.allocated(recvBuf_yl)) allocate( recvBuf_yl(ax,nb,az,ndim) )
+    if (.not.allocated(recvBuf_yr)) allocate( recvBuf_yr(ax,nb,az,ndim) )
+    if (.not.allocated(recvBuf_zl)) allocate( recvBuf_zl(ax,ay,nb,ndim) )
+    if (.not.allocated(recvBuf_zr)) allocate( recvBuf_zr(ax,ay,nb,ndim) )
 
 end subroutine allocate_singleProc
 
@@ -295,8 +303,11 @@ subroutine CommunicateXBoundaryData(ind)
     use mpi, only: comm,datatype,stat_size
     use mpi, only: reqSend_xl,reqSend_xr,reqSend_yl,reqSend_yr,reqSend_zl,reqSend_zr
     use mpi, only: reqRecv_xl,reqRecv_xr,reqRecv_yl,reqRecv_yr,reqRecv_zl,reqRecv_zr
-    use mpi, only: sendBuf_x, sendBuf_y, sendBuf_z
-    use mpi, only: recvBuf_x, recvBuf_y, recvBuf_z
+    use mpi, only: sendBuf_xl, sendBuf_yl, sendBuf_zl
+    use mpi, only: sendBuf_xr, sendBuf_yr, sendBuf_zr
+    use mpi, only: recvBuf_xl, recvBuf_yl, recvBuf_zl
+    use mpi, only: recvBuf_xr, recvBuf_yr, recvBuf_zr
+
     implicit none
 
     integer, intent(in) :: ind
@@ -308,39 +319,40 @@ subroutine CommunicateXBoundaryData(ind)
         stop
     end if
 
-    count = nb*ay*az
+    count = nb*ay*az*ndim
     tag = 1
     if (.not. xnproc) then
         ! Communicate right x boundary data
         dest = proc_xr
         print*,proc,': Sending iodata(',axn-nb+1,':',axn,')'
-        sendBuf_x = iodata(axn-nb+1:axn,:,:,ind)
+        sendBuf_xr = iodata(axn-nb+1:axn,:,:,:)
         print*,proc,': Copied send data to buffer'
-        call MPI_ISEND(sendBuf_x,count,datatype,dest,tag,comm,reqSend_xr,ierr)
+        call MPI_ISEND(sendBuf_xr,count,datatype,dest,tag,comm,reqSend_xr,ierr)
         print*,'Sent right boundary data from proc ',proc,' to proc ',dest
     end if
     if (.not. x1proc) then
         ! Recieve left boundary data
         source = proc_xl
         print*,proc,': Receiving'
-        call MPI_IRECV(recvBuf_x,count,datatype,source,tag,comm,reqRecv_xl,ierr)
+        call MPI_IRECV(recvBuf_xl,count,datatype,source,tag,comm,reqRecv_xl,ierr)
         print*,'Waiting for left boundary data from proc ',source,' to proc ',proc
     end if
 
-    ! count = nb
-    ! tag = tag+1
-    ! if (.not. x1proc) then
-    !     ! Communicate left x boundary data
-    !     dest = proc_xl
-    !     call MPI_ISEND(iodata(ax1:ax1+nb-1,ay1,az1,ind),count,datatype,dest,tag,comm,reqSend_xl,ierr)
-    !     print*,'Sent left boundary data from proc ',proc,' to proc ',dest
-    ! end if
-    ! if (.not. xnproc) then
-    !     ! Recieve right x boundary data
-    !     source = proc_xr
-    !     call MPI_IRECV(iodata(axn+1:ax,ay1,az1,ind),count,datatype,source,tag,comm,reqRecv_xr,ierr)
-    !     print*,'Waiting for right boundary data from proc ',source,' to proc ',proc
-    ! end if
+    count = nb*ay*az*ndim
+    tag = tag+1
+    if (.not. x1proc) then
+        ! Communicate left x boundary data
+        dest = proc_xl
+        sendBuf_xl = iodata(ax1:ax1+nb-1,:,:,:)
+        call MPI_ISEND(sendBuf_xl,count,datatype,dest,tag,comm,reqSend_xl,ierr)
+        print*,'Sent left boundary data from proc ',proc,' to proc ',dest
+    end if
+    if (.not. xnproc) then
+        ! Recieve right x boundary data
+        source = proc_xr
+        call MPI_IRECV(recvBuf_xr,count,datatype,source,tag,comm,reqRecv_xr,ierr)
+        print*,'Waiting for right boundary data from proc ',source,' to proc ',proc
+    end if
 
     print*,proc,': At the end of CommunicateXBoundaryData'
 
@@ -353,14 +365,17 @@ subroutine CommunicateXBoundaryWait(ind)
     use mpi, only: proc,x1proc,xnproc,y1proc,ynproc,z1proc,znproc
     use mpi, only: reqSend_xl,reqSend_xr,reqSend_yl,reqSend_yr,reqSend_zl,reqSend_zr
     use mpi, only: reqRecv_xl,reqRecv_xr,reqRecv_yl,reqRecv_yr,reqRecv_zl,reqRecv_zr
-    use mpi, only: sendBuf_x, sendBuf_y, sendBuf_z
-    use mpi, only: recvBuf_x, recvBuf_y, recvBuf_z
+    use mpi, only: sendBuf_xl, sendBuf_yl, sendBuf_zl
+    use mpi, only: sendBuf_xr, sendBuf_yr, sendBuf_zr
+    use mpi, only: recvBuf_xl, recvBuf_yl, recvBuf_zl
+    use mpi, only: recvBuf_xr, recvBuf_yr, recvBuf_zr
     
     implicit none
 
     integer, intent(in) :: ind
     integer :: ierr
-    integer :: statSend(stat_size), statRecv(stat_size)
+    integer :: statSend_xl(stat_size), statRecv_xl(stat_size)
+    integer :: statSend_xr(stat_size), statRecv_xr(stat_size)
     
     if (ind .gt. ndim) then
         print*,'ERROR: Invalid dimension input for iodata array in CommunicateXBoundaryData'
@@ -369,13 +384,18 @@ subroutine CommunicateXBoundaryWait(ind)
 
     print*,'In CommunicateXBoundaryWait'
 
-    if (.not. xnproc) call MPI_WAIT(reqSend_xr,statSend,ierr)
+    if (.not. xnproc) call MPI_WAIT(reqSend_xr,statSend_xr,ierr)
     if (.not. x1proc) then
-        call MPI_WAIT(reqRecv_xl,statRecv,ierr)
+        call MPI_WAIT(reqRecv_xl,statRecv_xl,ierr)
         print*,proc,': Recieved buffer. Now copying data to iodata'
-        iodata(1:nb,:,:,ind) = recvBuf_x
+        iodata(1:nb,:,:,:) = recvBuf_xl
     end if
-    ! if (.not. x1proc) call MPI_WAIT(reqSend_xl,statSend,ierr)
-    ! if (.not. xnproc) call MPI_WAIT(reqRecv_xr,statRecv,ierr)
+
+    if (.not. x1proc) call MPI_WAIT(reqSend_xl,statSend_xl,ierr)
+    if (.not. xnproc) then
+        call MPI_WAIT(reqRecv_xr,statRecv_xr,ierr)
+        print*,proc,': Recieved buffer. Now copying data to iodata'
+        iodata(axn+1:ax,:,:,:) = recvBuf_xr
+    end if
 
 end subroutine CommunicateXBoundaryWait

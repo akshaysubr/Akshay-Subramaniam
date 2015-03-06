@@ -40,10 +40,12 @@ program postprocess
     call read_parallel_grid
     call read_parallel_data(step)
 
+    if (proc == 1) print*,"Proc ",proc,": x_c(:,ay1,az1) = ",x_c(:,ay1,az1)
+    
     call CommunicateXBoundaryData(xInd)
     call CommunicateXBoundaryWait(xInd)
 
-    print*,"Proc ",proc,": x_c(:,ay1,az1) = ",x_c(:,ay1,az1)
+    if (proc == 1) print*,"Proc ",proc,": x_c(:,ay1,az1) = ",x_c(:,ay1,az1)
 
     ! Loop through time steps
     ! do step=t1,tf
