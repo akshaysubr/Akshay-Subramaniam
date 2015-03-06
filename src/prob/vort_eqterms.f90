@@ -92,13 +92,13 @@ subroutine mypostprocess(step)
     real(kind=4), dimension(:,:,:,:), allocatable :: vort,gradrho,gradp,uder,vder,wder
     character(len=flen) :: statsfile
     integer, parameter :: statsUnit=37
-    logical, parameter :: writetofile=.FALSE.
+    logical, parameter :: writetofile=.TRUE.
 
     if (master) then
         if (writetofile) then
-            WRITE(statsfile,'(2A)') TRIM(jobdir),'/vort_eqterms.dat'
+            WRITE(statsfile,'(2A)') TRIM(jobdir),'/vort_eqterms_parallel.dat'
             if (step == t1) then
-                OPEN(UNIT=statsUnit,FILE=statsfile,FORM='FORMATTED',STATUS='NEW')
+                OPEN(UNIT=statsUnit,FILE=statsfile,FORM='FORMATTED',STATUS='REPLACE')
             else
                 OPEN(UNIT=statsUnit,FILE=statsfile,FORM='FORMATTED',POSITION='APPEND')
             end if
@@ -243,11 +243,10 @@ subroutine mypostprocess(step)
     call MPI_Reduce(vortz_comp,vortz_comp_total,1,MPI_REAL,MPI_SUM,master_proc,comm,ierr)
 
     if (master) then
-        print*, '    Integrated rho*vorticity = ', vortx_intg, vorty_intg, vortz_intg
-        print*, '    Integrated baroclinic pressure term = ', vortx_pres, vorty_pres, vortz_pres
-        print*, '    Integrated baroclinic viscous term = ', vortx_visc, vorty_visc, vortz_visc
-        print*, '    Integrated baroclinic viscous term = ', vortx_visc_total
-        print*, '    Integrated vortex dilatation term = ', vortx_comp, vorty_comp, vortz_comp
+        print*, '    Integrated rho*vorticity = '           , vortx_intg_total, vorty_intg_total, vortz_intg_total
+        print*, '    Integrated baroclinic pressure term = ', vortx_pres_total, vorty_pres_total, vortz_pres_total
+        print*, '    Integrated baroclinic viscous term = ' , vortx_visc_total, vorty_visc_total, vortz_visc_total
+        print*, '    Integrated vortex dilatation term = '  , vortx_comp_total, vorty_comp_total, vortz_comp_total
 
         if (writetofile) then
             if (step == t1) then
@@ -256,10 +255,10 @@ subroutine mypostprocess(step)
                                                            & 'X baro visc','Y baro visc','Z baro visc', &
                                                            & 'X baro comp','Y baro comp','Z baro comp'
             end if
-            WRITE(statsUnit,'(13ES20.8)') step*dt,vortx_intg,vorty_intg,vortz_intg, &
-                                                & vortx_pres,vorty_pres,vortz_pres, &
-                                                & vortx_visc,vorty_visc,vortz_visc, &
-                                                & vortx_comp,vorty_comp,vortz_comp
+            WRITE(statsUnit,'(13ES20.8)') step*dt,vortx_intg_total,vorty_intg_total,vortz_intg_total, &
+                                                & vortx_pres_total,vorty_pres_total,vortz_pres_total, &
+                                                & vortx_visc_total,vorty_visc_total,vortz_visc_total, &
+                                                & vortx_comp_total,vorty_comp_total,vortz_comp_total
             CLOSE(statsUnit)
         end if
     end if
