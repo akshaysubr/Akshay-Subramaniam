@@ -40,12 +40,21 @@ program postprocess
     call read_parallel_grid
     call read_parallel_data(step)
 
-    if (proc == 1) print*,"Proc ",proc,": x_c(:,ay1,az1) = ",x_c(:,ay1,az1)
-    
-    call CommunicateXBoundaryData(xInd)
-    call CommunicateXBoundaryWait(xInd)
+    ! if (proc == 1) print*,"Proc ",proc,": x_c(:,ay1,az1) = ",x_c(:,ay1,az1)
+    print*,"Proc ",proc,": z_c(ax1,ay1,:) = ",z_c(ax1,ay1,:)
+   
+    ! Communicate data
+    call CommunicateXBoundaryData
+    call CommunicateYBoundaryData
+    call CommunicateZBoundaryData
 
-    if (proc == 1) print*,"Proc ",proc,": x_c(:,ay1,az1) = ",x_c(:,ay1,az1)
+    ! Wait for communications to end
+    call CommunicateXBoundaryWait
+    call CommunicateYBoundaryWait
+    call CommunicateZBoundaryWait
+
+    ! if (proc == 1) print*,"Proc ",proc,": x_c(:,ay1,az1) = ",x_c(:,ay1,az1)
+    print*,"Proc ",proc,": z_c(ax1,ay1,:) = ",z_c(ax1,ay1,:)
 
     ! Loop through time steps
     ! do step=t1,tf

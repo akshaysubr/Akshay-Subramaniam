@@ -1,8 +1,8 @@
 &INPUT
 jobdir = '/scratch/akshays/miranda/TAMU/TEST_SLIP_THICK_064'
-ppx = 8
+ppx = 32
 ppy = 2
-ppz = 2
+ppz = 1
 t1 = 0
 tf = 60
 dt = 1.0D-4
