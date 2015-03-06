@@ -258,7 +258,7 @@ end subroutine setup_pointers
 subroutine setup_mpi
     use globals, only: nb,ax,ay,az,px,py,pz,ppx,ppy,ppz,procmap
     use mpi, only: proc,nprocs,xproc,yproc,zproc,npx,npy,npz
-    use mpi, only: master,x1proc,xnproc,y1proc,ynproc,z1proc,znproc
+    use mpi, only: master,master_proc,x1proc,xnproc,y1proc,ynproc,z1proc,znproc
     use mpi, only: proc_xl,proc_xr,proc_yl,proc_yr,proc_zl,proc_zr,GetProcID
     implicit none
     integer :: xp,yp,zp
@@ -278,7 +278,7 @@ subroutine setup_mpi
     yproc = MOD( proc/npx,npy )
     zproc = (proc/npx)/npy
 
-    if (  proc == 0 ) master = .TRUE.
+    if (  proc == master_proc ) master = .TRUE.
 
     if ( xproc == 0 ) x1proc = .TRUE.
     if ( yproc == 0 ) y1proc = .TRUE.
@@ -318,18 +318,18 @@ subroutine CommunicateXBoundaryData
     if (.not. xnproc) then
         ! Communicate right x boundary data
         dest = proc_xr
-        print*,proc,': Sending iodata(',axn-nb+1,':',axn,')'
+        ! print*,proc,': Sending iodata(',axn-nb+1,':',axn,')'
         sendBuf_xr = iodata(axn-nb+1:axn,:,:,:)
-        print*,proc,': Copied send data to buffer'
+        ! print*,proc,': Copied send data to buffer'
         call MPI_ISEND(sendBuf_xr,count,datatype,dest,tag,comm,reqSend_xr,ierr)
-        print*,'Sent right boundary data from proc ',proc,' to proc ',dest
+        ! print*,'Sent right boundary data from proc ',proc,' to proc ',dest
     end if
     if (.not. x1proc) then
         ! Recieve left boundary data
         source = proc_xl
-        print*,proc,': Receiving'
+        ! print*,proc,': Receiving'
         call MPI_IRECV(recvBuf_xl,count,datatype,source,tag,comm,reqRecv_xl,ierr)
-        print*,'Waiting for left boundary data from proc ',source,' to proc ',proc
+        ! print*,'Waiting for left boundary data from proc ',source,' to proc ',proc
     end if
 
     count = nb*ay*az*ndim
@@ -339,16 +339,16 @@ subroutine CommunicateXBoundaryData
         dest = proc_xl
         sendBuf_xl = iodata(ax1:ax1+nb-1,:,:,:)
         call MPI_ISEND(sendBuf_xl,count,datatype,dest,tag,comm,reqSend_xl,ierr)
-        print*,'Sent left boundary data from proc ',proc,' to proc ',dest
+        ! print*,'Sent left boundary data from proc ',proc,' to proc ',dest
     end if
     if (.not. xnproc) then
         ! Recieve right x boundary data
         source = proc_xr
         call MPI_IRECV(recvBuf_xr,count,datatype,source,tag,comm,reqRecv_xr,ierr)
-        print*,'Waiting for right boundary data from proc ',source,' to proc ',proc
+        ! print*,'Waiting for right boundary data from proc ',source,' to proc ',proc
     end if
-
-    print*,proc,': At the end of CommunicateXBoundaryData'
+ 
+    ! print*,proc,': At the end of CommunicateXBoundaryData'
 
 end subroutine CommunicateXBoundaryData
 
@@ -370,19 +370,19 @@ subroutine CommunicateXBoundaryWait
     integer :: statSend_xl(stat_size), statRecv_xl(stat_size)
     integer :: statSend_xr(stat_size), statRecv_xr(stat_size)
     
-    print*,'In CommunicateXBoundaryWait'
+    ! print*,'In CommunicateXBoundaryWait'
 
     if (.not. xnproc) call MPI_WAIT(reqSend_xr,statSend_xr,ierr)
     if (.not. x1proc) then
         call MPI_WAIT(reqRecv_xl,statRecv_xl,ierr)
-        print*,proc,': Recieved buffer. Now copying data to iodata'
+        ! print*,proc,': Recieved buffer. Now copying data to iodata'
         iodata(1:nb,:,:,:) = recvBuf_xl
     end if
 
     if (.not. x1proc) call MPI_WAIT(reqSend_xl,statSend_xl,ierr)
     if (.not. xnproc) then
         call MPI_WAIT(reqRecv_xr,statRecv_xr,ierr)
-        print*,proc,': Recieved buffer. Now copying data to iodata'
+        ! print*,proc,': Recieved buffer. Now copying data to iodata'
         iodata(axn+1:ax,:,:,:) = recvBuf_xr
     end if
 
@@ -409,18 +409,18 @@ subroutine CommunicateYBoundaryData
     if (.not. ynproc) then
         ! Communicate right x boundary data
         dest = proc_yr
-        print*,proc,': Sending iodata(',ayn-nb+1,':',ayn,')'
+        ! print*,proc,': Sending iodata(',ayn-nb+1,':',ayn,')'
         sendBuf_yr = iodata(:,ayn-nb+1:ayn,:,:)
-        print*,proc,': Copied send data to buffer'
+        ! print*,proc,': Copied send data to buffer'
         call MPI_ISEND(sendBuf_yr,count,datatype,dest,tag,comm,reqSend_yr,ierr)
-        print*,'Sent right boundary data from proc ',proc,' to proc ',dest
+        ! print*,'Sent right boundary data from proc ',proc,' to proc ',dest
     end if
     if (.not. y1proc) then
         ! Recieve left boundary data
         source = proc_yl
-        print*,proc,': Receiving'
+        ! print*,proc,': Receiving'
         call MPI_IRECV(recvBuf_yl,count,datatype,source,tag,comm,reqRecv_yl,ierr)
-        print*,'Waiting for left boundary data from proc ',source,' to proc ',proc
+        ! print*,'Waiting for left boundary data from proc ',source,' to proc ',proc
     end if
 
     count = nb*ax*az*ndim
@@ -430,16 +430,16 @@ subroutine CommunicateYBoundaryData
         dest = proc_yl
         sendBuf_yl = iodata(:,ay1:ay1+nb-1,:,:)
         call MPI_ISEND(sendBuf_yl,count,datatype,dest,tag,comm,reqSend_yl,ierr)
-        print*,'Sent left boundary data from proc ',proc,' to proc ',dest
+        ! print*,'Sent left boundary data from proc ',proc,' to proc ',dest
     end if
     if (.not. ynproc) then
         ! Recieve right x boundary data
         source = proc_yr
         call MPI_IRECV(recvBuf_yr,count,datatype,source,tag,comm,reqRecv_yr,ierr)
-        print*,'Waiting for right boundary data from proc ',source,' to proc ',proc
+        ! print*,'Waiting for right boundary data from proc ',source,' to proc ',proc
     end if
 
-    print*,proc,': At the end of CommunicateYBoundaryData'
+    ! print*,proc,': At the end of CommunicateYBoundaryData'
 
 end subroutine CommunicateYBoundaryData
 
@@ -461,19 +461,19 @@ subroutine CommunicateYBoundaryWait
     integer :: statSend_yl(stat_size), statRecv_yl(stat_size)
     integer :: statSend_yr(stat_size), statRecv_yr(stat_size)
     
-    print*,'In CommunicateYBoundaryWait'
+    ! print*,'In CommunicateYBoundaryWait'
 
     if (.not. ynproc) call MPI_WAIT(reqSend_yr,statSend_yr,ierr)
     if (.not. y1proc) then
         call MPI_WAIT(reqRecv_yl,statRecv_yl,ierr)
-        print*,proc,': Recieved buffer. Now copying data to iodata'
+        ! print*,proc,': Recieved buffer. Now copying data to iodata'
         iodata(:,1:nb,:,:) = recvBuf_yl
     end if
 
     if (.not. y1proc) call MPI_WAIT(reqSend_yl,statSend_yl,ierr)
     if (.not. ynproc) then
         call MPI_WAIT(reqRecv_yr,statRecv_yr,ierr)
-        print*,proc,': Recieved buffer. Now copying data to iodata'
+        ! print*,proc,': Recieved buffer. Now copying data to iodata'
         iodata(:,ayn+1:ay,:,:) = recvBuf_yr
     end if
 
@@ -500,18 +500,18 @@ subroutine CommunicateZBoundaryData
     if (.not. znproc) then
         ! Communicate right x boundary data
         dest = proc_zr
-        print*,proc,': Sending iodata(',azn-nb+1,':',azn,')'
+        ! print*,proc,': Sending iodata(',azn-nb+1,':',azn,')'
         sendBuf_zr = iodata(:,:,azn-nb+1:azn,:)
-        print*,proc,': Copied send data to buffer'
+        ! print*,proc,': Copied send data to buffer'
         call MPI_ISEND(sendBuf_zr,count,datatype,dest,tag,comm,reqSend_zr,ierr)
-        print*,'Sent right boundary data from proc ',proc,' to proc ',dest
+        ! print*,'Sent right boundary data from proc ',proc,' to proc ',dest
     end if
     if (.not. z1proc) then
         ! Recieve left boundary data
         source = proc_zl
-        print*,proc,': Receiving'
+        ! print*,proc,': Receiving'
         call MPI_IRECV(recvBuf_zl,count,datatype,source,tag,comm,reqRecv_zl,ierr)
-        print*,'Waiting for left boundary data from proc ',source,' to proc ',proc
+        ! print*,'Waiting for left boundary data from proc ',source,' to proc ',proc
     end if
 
     count = nb*ax*ay*ndim
@@ -521,16 +521,16 @@ subroutine CommunicateZBoundaryData
         dest = proc_zl
         sendBuf_zl = iodata(:,:,az1:az1+nb-1,:)
         call MPI_ISEND(sendBuf_zl,count,datatype,dest,tag,comm,reqSend_zl,ierr)
-        print*,'Sent left boundary data from proc ',proc,' to proc ',dest
+        ! print*,'Sent left boundary data from proc ',proc,' to proc ',dest
     end if
     if (.not. znproc) then
         ! Recieve right x boundary data
         source = proc_zr
         call MPI_IRECV(recvBuf_zr,count,datatype,source,tag,comm,reqRecv_zr,ierr)
-        print*,'Waiting for right boundary data from proc ',source,' to proc ',proc
+        ! print*,'Waiting for right boundary data from proc ',source,' to proc ',proc
     end if
 
-    print*,proc,': At the end of CommunicateZBoundaryData'
+    ! print*,proc,': At the end of CommunicateZBoundaryData'
 
 end subroutine CommunicateZBoundaryData
 
@@ -552,19 +552,19 @@ subroutine CommunicateZBoundaryWait
     integer :: statSend_zl(stat_size), statRecv_zl(stat_size)
     integer :: statSend_zr(stat_size), statRecv_zr(stat_size)
     
-    print*,'In CommunicateZBoundaryWait'
+    ! print*,'In CommunicateZBoundaryWait'
 
     if (.not. znproc) call MPI_WAIT(reqSend_zr,statSend_zr,ierr)
     if (.not. z1proc) then
         call MPI_WAIT(reqRecv_zl,statRecv_zl,ierr)
-        print*,proc,': Recieved buffer. Now copying data to iodata'
+        ! print*,proc,': Recieved buffer. Now copying data to iodata'
         iodata(:,:,1:nb,:) = recvBuf_zl
     end if
 
     if (.not. z1proc) call MPI_WAIT(reqSend_zl,statSend_zl,ierr)
     if (.not. znproc) then
         call MPI_WAIT(reqRecv_zr,statRecv_zr,ierr)
-        print*,proc,': Recieved buffer. Now copying data to iodata'
+        ! print*,proc,': Recieved buffer. Now copying data to iodata'
         iodata(:,:,azn+1:az,:) = recvBuf_zr
     end if
 

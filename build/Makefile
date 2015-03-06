@@ -114,6 +114,19 @@ test_parallel/fast:
 	$(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/build
 .PHONY : test_parallel/fast
 
+#=============================================================================
+# Target rules for targets named vort_eqterms
+
+# Build rule for target.
+vort_eqterms: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 vort_eqterms
+.PHONY : vort_eqterms
+
+# fast build rule for target.
+vort_eqterms/fast:
+	$(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/build
+.PHONY : vort_eqterms/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -123,6 +136,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test_parallel"
+	@echo "... vort_eqterms"
 .PHONY : help
 
 

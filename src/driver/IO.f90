@@ -85,11 +85,29 @@ end subroutine setup_postprocess
 subroutine cleanup_postprocess
 
     use globals, only: iodata,procmap,invprocmap
+    use mpi, only: sendBuf_xl, sendBuf_yl, sendBuf_zl
+    use mpi, only: sendBuf_xr, sendBuf_yr, sendBuf_zr
+    use mpi, only: recvBuf_xl, recvBuf_yl, recvBuf_zl
+    use mpi, only: recvBuf_xr, recvBuf_yr, recvBuf_zr
     implicit none
 
-    deallocate( iodata )
-    deallocate( procmap )
-    deallocate( invprocmap )
+    if (allocated( iodata )) deallocate( iodata )
+    if (allocated( procmap )) deallocate( procmap )
+    if (allocated( invprocmap )) deallocate( invprocmap )
+    
+    if (allocated(sendBuf_xl)) deallocate( sendBuf_xl )
+    if (allocated(sendBuf_xr)) deallocate( sendBuf_xr )
+    if (allocated(sendBuf_yl)) deallocate( sendBuf_yl )
+    if (allocated(sendBuf_yr)) deallocate( sendBuf_yr )
+    if (allocated(sendBuf_zl)) deallocate( sendBuf_zl )
+    if (allocated(sendBuf_zr)) deallocate( sendBuf_zr )
+
+    if (allocated(recvBuf_xl)) deallocate( recvBuf_xl )
+    if (allocated(recvBuf_xr)) deallocate( recvBuf_xr )
+    if (allocated(recvBuf_yl)) deallocate( recvBuf_yl )
+    if (allocated(recvBuf_yr)) deallocate( recvBuf_yr )
+    if (allocated(recvBuf_zl)) deallocate( recvBuf_zl )
+    if (allocated(recvBuf_zr)) deallocate( recvBuf_zr )
 
 end subroutine cleanup_postprocess
 

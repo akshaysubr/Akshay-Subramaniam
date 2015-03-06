@@ -7,6 +7,7 @@ module mpi
     integer :: comm                               ! MPI_COMM_WORLD
     integer, parameter :: stat_size=MPI_STATUS_SIZE
     integer, parameter :: datatype=MPI_REAL
+    integer, parameter :: master_proc=0           ! Rank of the master processor
 
     logical :: master=.FALSE.                     ! Proc is master?
     logical :: x1proc=.FALSE.                     ! Proc is on left x boundary?

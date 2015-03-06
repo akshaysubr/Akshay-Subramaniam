@@ -115,13 +115,36 @@ test_parallel/fast:
 	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/build
 .PHONY : test_parallel/fast
 
+# Convenience name for target.
+prob/CMakeFiles/vort_eqterms.dir/rule:
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f CMakeFiles/Makefile2 prob/CMakeFiles/vort_eqterms.dir/rule
+.PHONY : prob/CMakeFiles/vort_eqterms.dir/rule
+
+# Convenience name for target.
+vort_eqterms: prob/CMakeFiles/vort_eqterms.dir/rule
+.PHONY : vort_eqterms
+
+# fast build rule for target.
+vort_eqterms/fast:
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/build
+.PHONY : vort_eqterms/fast
+
 __/driver/IO.o: __/driver/IO.f90.o
 .PHONY : __/driver/IO.o
 
 # target to build an object file
 __/driver/IO.f90.o:
 	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/__/driver/IO.f90.o
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/__/driver/IO.f90.o
 .PHONY : __/driver/IO.f90.o
+
+__/driver/functions.o: __/driver/functions.f90.o
+.PHONY : __/driver/functions.o
+
+# target to build an object file
+__/driver/functions.f90.o:
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/__/driver/functions.f90.o
+.PHONY : __/driver/functions.f90.o
 
 __/driver/globals.o: __/driver/globals.f90.o
 .PHONY : __/driver/globals.o
@@ -129,7 +152,16 @@ __/driver/globals.o: __/driver/globals.f90.o
 # target to build an object file
 __/driver/globals.f90.o:
 	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/__/driver/globals.f90.o
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/__/driver/globals.f90.o
 .PHONY : __/driver/globals.f90.o
+
+__/driver/interfaces.o: __/driver/interfaces.f90.o
+.PHONY : __/driver/interfaces.o
+
+# target to build an object file
+__/driver/interfaces.f90.o:
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/__/driver/interfaces.f90.o
+.PHONY : __/driver/interfaces.f90.o
 
 __/driver/mpi.o: __/driver/mpi.f90.o
 .PHONY : __/driver/mpi.o
@@ -137,7 +169,16 @@ __/driver/mpi.o: __/driver/mpi.f90.o
 # target to build an object file
 __/driver/mpi.f90.o:
 	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/__/driver/mpi.f90.o
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/__/driver/mpi.f90.o
 .PHONY : __/driver/mpi.f90.o
+
+__/driver/operators.o: __/driver/operators.f90.o
+.PHONY : __/driver/operators.o
+
+# target to build an object file
+__/driver/operators.f90.o:
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/__/driver/operators.f90.o
+.PHONY : __/driver/operators.f90.o
 
 test_parallel.o: test_parallel.f90.o
 .PHONY : test_parallel.o
@@ -146,6 +187,14 @@ test_parallel.o: test_parallel.f90.o
 test_parallel.f90.o:
 	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/test_parallel.dir/build.make prob/CMakeFiles/test_parallel.dir/test_parallel.f90.o
 .PHONY : test_parallel.f90.o
+
+vort_eqterms.o: vort_eqterms.f90.o
+.PHONY : vort_eqterms.o
+
+# target to build an object file
+vort_eqterms.f90.o:
+	cd /home/akshays/mpi-exercises/mir-pp/build && $(MAKE) -f prob/CMakeFiles/vort_eqterms.dir/build.make prob/CMakeFiles/vort_eqterms.dir/vort_eqterms.f90.o
+.PHONY : vort_eqterms.f90.o
 
 # Help Target
 help:
@@ -156,10 +205,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test_parallel"
+	@echo "... vort_eqterms"
 	@echo "... __/driver/IO.o"
+	@echo "... __/driver/functions.o"
 	@echo "... __/driver/globals.o"
+	@echo "... __/driver/interfaces.o"
 	@echo "... __/driver/mpi.o"
+	@echo "... __/driver/operators.o"
 	@echo "... test_parallel.o"
+	@echo "... vort_eqterms.o"
 .PHONY : help
 
 
