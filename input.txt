@@ -4,7 +4,7 @@ ppx = 4
 ppy = 2
 ppz = 2
 t1 = 0
-tf = 60
+tf = 1
 dt = 1.0D-4
 verbose = .FALSE.
 /

@@ -1,27 +1,27 @@
 module interfaces
 
     interface ddx
-        subroutine ddx_2ndCentral(f,df)
+        subroutine ddx_4thCentral(f,df)
             use globals, only: dx
             real(kind=4), dimension(:,:,:), intent(in) :: f
             real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
-        end subroutine ddx_2ndCentral
+        end subroutine ddx_4thCentral
     end interface
 
     interface ddy
-        subroutine ddy_2ndCentral(f,df)
+        subroutine ddy_4thCentral(f,df)
             use globals, only: dy
             real(kind=4), dimension(:,:,:), intent(in) :: f
             real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
-        end subroutine ddy_2ndCentral
+        end subroutine ddy_4thCentral
     end interface
 
     interface ddz
-        subroutine ddz_2ndCentral(f,df)
+        subroutine ddz_4thCentral(f,df)
             use globals, only: dz
             real(kind=4), dimension(:,:,:), intent(in) :: f
             real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
-        end subroutine ddz_2ndCentral
+        end subroutine ddz_4thCentral
     end interface
 
     interface d2x

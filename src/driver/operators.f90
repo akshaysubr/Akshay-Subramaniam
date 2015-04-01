@@ -8,7 +8,7 @@ subroutine ddx_2ndCentral(f,df)
 
     nx = SIZE(f,1)
 
-    df(2:nx-1,:,:) = (f(3:nx,:,:) - f(1:nx-2,:,:)) / (2.0*dx)                          ! Interior
+    df(2:nx-1,:,:) = (f(3:nx,:,:) - f(1:nx-2,:,:)) / (2.0D0*dx)                          ! Interior
     df(     1,:,:) = (-1.5D0*f( 1,:,:) + 2.0D0*f(   2,:,:) - 0.5D0*f(   3,:,:)) / dx   ! Boundary, one sided forward diff
     df(    nx,:,:) = ( 1.5D0*f(nx,:,:) - 2.0D0*f(nx-1,:,:) + 0.5D0*f(nx-2,:,:)) / dx   ! Boundary, one sided backward diff
 
@@ -24,7 +24,7 @@ subroutine ddy_2ndCentral(f,df)
 
     ny = SIZE(f,2)
 
-    df(:,2:ny-1,:) = (f(:,3:ny,:) - f(:,1:ny-2,:)) / (2.0*dy)                          ! Interior
+    df(:,2:ny-1,:) = (f(:,3:ny,:) - f(:,1:ny-2,:)) / (2.0D0*dy)                          ! Interior
     df(:,     1,:) = (-1.5D0*f(:, 1,:) + 2.0D0*f(:,   2,:) - 0.5D0*f(:,   3,:)) / dy   ! Boundary, one sided forward diff
     df(:,    ny,:) = ( 1.5D0*f(:,ny,:) - 2.0D0*f(:,ny-1,:) + 0.5D0*f(:,ny-2,:)) / dy   ! Boundary, one sided backward diff
 
@@ -40,11 +40,65 @@ subroutine ddz_2ndCentral(f,df)
 
     nz = SIZE(f,3)
 
-    df(:,:,2:nz-1) = (f(:,:,3:nz) - f(:,:,1:nz-2)) / (2.0*dz)                          ! Interior
+    df(:,:,2:nz-1) = (f(:,:,3:nz) - f(:,:,1:nz-2)) / (2.0D0*dz)                          ! Interior
     df(:,:,     1) = (-1.5D0*f(:,:, 1) + 2.0D0*f(:,:,   2) - 0.5D0*f(:,:,   3)) / dz   ! Boundary, one sided forward diff
     df(:,:,    nz) = ( 1.5D0*f(:,:,nz) - 2.0D0*f(:,:,nz-1) + 0.5D0*f(:,:,nz-2)) / dz   ! Boundary, one sided backward diff
 
 end subroutine ddz_2ndCentral
+
+subroutine ddx_4thCentral(f,df)
+
+    use globals, only: dx
+    implicit none
+    real(kind=4), dimension(:,:,:), intent(in) :: f
+    real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
+    integer :: nx
+
+    nx = SIZE(f,1)
+
+    df(3:nx-2,:,:) = (f(1:nx-4,:,:) - 8.0D0*f(2:nx-3,:,:) + 8.0D0*f(4:nx-1,:,:) - f(5:nx,:,:)) / (12.0D0*dx) ! Interior
+    df(     2,:,:) = (f( 3,:,:) - f(   1,:,:)) / (2.0D0*dx)                                                  ! 2nd order central
+    df(  nx-1,:,:) = (f(nx,:,:) - f(nx-2,:,:)) / (2.0D0*dx)                                                  ! 2nd order central
+    df(     1,:,:) = (-1.5D0*f( 1,:,:) + 2.0D0*f(   2,:,:) - 0.5D0*f(   3,:,:)) / dx   ! Boundary, one sided forward diff
+    df(    nx,:,:) = ( 1.5D0*f(nx,:,:) - 2.0D0*f(nx-1,:,:) + 0.5D0*f(nx-2,:,:)) / dx   ! Boundary, one sided backward diff
+
+end subroutine ddx_4thCentral
+
+subroutine ddy_4thCentral(f,df)
+
+    use globals, only: dy
+    implicit none
+    real(kind=4), dimension(:,:,:), intent(in) :: f
+    real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
+    integer :: ny
+
+    ny = SIZE(f,2)
+
+    df(:,3:ny-2,:) = (f(:,1:ny-4,:) - 8.0D0*f(:,2:ny-3,:) + 8.0D0*f(:,4:ny-1,:) - f(:,5:ny,:)) / (12.0D0*dy) ! Interior
+    df(:,     2,:) = (f(:, 3,:) - f(:,   1,:)) / (2.0D0*dy)                                                  ! 2nd order central
+    df(:,  ny-1,:) = (f(:,ny,:) - f(:,ny-2,:)) / (2.0D0*dy)                                                  ! 2nd order central
+    df(:,     1,:) = (-1.5D0*f(:, 1,:) + 2.0D0*f(:,   2,:) - 0.5D0*f(:,   3,:)) / dy   ! Boundary, one sided forward diff
+    df(:,    ny,:) = ( 1.5D0*f(:,ny,:) - 2.0D0*f(:,ny-1,:) + 0.5D0*f(:,ny-2,:)) / dy   ! Boundary, one sided backward diff
+
+end subroutine ddy_4thCentral
+
+subroutine ddz_4thCentral(f,df)
+
+    use globals, only: dz
+    implicit none
+    real(kind=4), dimension(:,:,:), intent(in) :: f
+    real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
+    integer :: nz
+
+    nz = SIZE(f,3)
+
+    df(:,:,3:nz-2) = (f(:,:,1:nz-4) - 8.0D0*f(:,:,2:nz-3) + 8.0D0*f(:,:,4:nz-1) - f(:,:,5:nz)) / (12.0D0*dz) ! Interior
+    df(:,:,     2) = (f(:,:, 3) - f(:,:,   1)) / (2.0D0*dz)                                                  ! 2nd order central
+    df(:,:,  nz-1) = (f(:,:,nz) - f(:,:,nz-2)) / (2.0D0*dz)                                                  ! 2nd order central
+    df(:,:,     1) = (-1.5D0*f(:,:, 1) + 2.0D0*f(:,:,   2) - 0.5D0*f(:,:,   3)) / dz   ! Boundary, one sided forward diff
+    df(:,:,    nz) = ( 1.5D0*f(:,:,nz) - 2.0D0*f(:,:,nz-1) + 0.5D0*f(:,:,nz-2)) / dz   ! Boundary, one sided backward diff
+
+end subroutine ddz_4thCentral
 
 subroutine d2x_2ndCentral(f,df)
 
