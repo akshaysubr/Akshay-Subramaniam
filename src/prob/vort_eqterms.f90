@@ -92,7 +92,7 @@ subroutine mypostprocess(step)
     real(kind=4), dimension(:,:,:,:), allocatable :: vort,gradrho,gradp,uder,vder,wder
     character(len=flen) :: statsfile
     integer, parameter :: statsUnit=37
-    logical, parameter :: writetofile=.TRUE.
+    logical, parameter :: writetofile=.FALSE.
 
     if (master) then
         if (writetofile) then
@@ -134,11 +134,30 @@ subroutine mypostprocess(step)
     vortz_comp = 0.0D0
     vortm_comp = 0.0D0
 
+    ! ---------------- Synthetic fields for debugging --------------
+    !VERIFY u = x_c*y_c
+    !VERIFY v = -x_c*y_c
+    !VERIFY w = 0.0D0
+    !VERIFY rho = 1/x_c
+    !VERIFY p = 1/y_c
+    !VERIFY mu = 1.0D0
+    !VERIFY bulk = 1.0D0
+    ! ---------------- Synthetic fields for debugging --------------
+
+    !VERIFY if (master) print*, "x, y = ",x_c(ax1+16,ay1+16,az1+16),y_c(ax1+16,ay1+16,az1+16)
+    !VERIFY if (master) print*, "u, v = ",u(ax1+16,ay1+16,az1+16), v(ax1+16,ay1+16,az1+16)
+    !VERIFY if (master) print*, "u, v = ",x_c(ax1+16,ay1+16,az1+16)*y_c(ax1+16,ay1+16,az1+16),-x_c(ax1+16,ay1+16,az1+16)*y_c(ax1+16,ay1+16,az1+16)
+    !VERIFY if (master) print*, "Eu, Ev = ",MAXVAL(ABS(u - x_c*y_c)),MAXVAL(ABS(v - (-x_c*y_c)))
+
     ! ---------------- Vorticity metrics ----------------
     call calc_vorticity(vort)
     vort(:,:,:,1) = rho*vort(:,:,:,1)
     vort(:,:,:,2) = rho*vort(:,:,:,2)
     vort(:,:,:,3) = rho*vort(:,:,:,3)
+
+    !VERIFY if (master) print*, "x, y = ",x_c(ax1+16,ay1+16,az1+16),y_c(ax1+16,ay1+16,az1+16)
+    !VERIFY if (master) print*, "rho*vort = ",vort(ax1+16,ay1+16,az1+16,:)
+    !VERIFY if (master) print*, "(rho*vort)_z = ", -( 1.0D0 + y_c(ax1+16,ay1+16,az1+16)/x_c(ax1+16,ay1+16,az1+16) )
 
     ! Integrated rho*omega
     vortx_intg = integrate(vort(ax1:axn,ay1:ayn,az1:azn,1)) 
@@ -172,6 +191,10 @@ subroutine mypostprocess(step)
     wder(:,:,:,2) = vder(:,:,:,3)
 
     dilatation = uder(:,:,:,1)+vder(:,:,:,2)+wder(:,:,:,3)
+    
+    !VERIFY if (master) print*, "x, y = ",x_c(ax1+16,ay1+16,az1+16),y_c(ax1+16,ay1+16,az1+16)
+    !VERIFY if (master) print*, "dilatation = ",dilatation(ax1+16,ay1+16,az1+16)
+    !VERIFY if (master) print*, "dilatation = ", ( y_c(ax1+16,ay1+16,az1+16) - x_c(ax1+16,ay1+16,az1+16) )
 
     ! Now get the viscous stress tensor (Put rows in uder, vder, wder)
     do i=1,3
@@ -183,6 +206,10 @@ subroutine mypostprocess(step)
     vder(:,:,:,2) = vder(:,:,:,2) - (2.0D0*mu/3.0D0 - bulk)*dilatation
     wder(:,:,:,3) = wder(:,:,:,3) - (2.0D0*mu/3.0D0 - bulk)*dilatation
 
+    !VERIFY if (master) print*, "x, y = ",x_c(ax1+16,ay1+16,az1+16),y_c(ax1+16,ay1+16,az1+16)
+    !VERIFY if (master) print*, "vortz_comp = ", -vort(ax1+16,ay1+16,az1+16,3)*dilatation(ax1+16,ay1+16,az1+16)
+    !VERIFY if (master) print*, "vortz_comp = ", ( - x_c(ax1+16,ay1+16,az1+16)**2 + y_c(ax1+16,ay1+16,az1+16)**2 )/x_c(ax1+16,ay1+16,az1+16)
+    
     ! Compressibility effect
     vortx_comp = -integrate(vort(ax1:axn,ay1:ayn,az1:azn,1)*dilatation(ax1:axn,ay1:ayn,az1:azn))
     vorty_comp = -integrate(vort(ax1:axn,ay1:ayn,az1:azn,2)*dilatation(ax1:axn,ay1:ayn,az1:azn))
@@ -191,6 +218,10 @@ subroutine mypostprocess(step)
     ! Baroclinic vorticity generation = grad(rho) x grad(p)/(rho)
     call crossprod(vort,gradrho,gradp)
 
+    !VERIFY if (master) print*, "x, y = ",x_c(ax1+16,ay1+16,az1+16),y_c(ax1+16,ay1+16,az1+16)
+    !VERIFY if (master) print*, "vortz_pres = ", vort(ax1+16,ay1+16,az1+16,3)/rho(ax1+16,ay1+16,az1+16)
+    !VERIFY if (master) print*, "vortz_pres = ", 1.0D0/( x_c(ax1+16,ay1+16,az1+16) * y_c(ax1+16,ay1+16,az1+16)**2 )
+    
     ! vort now has [ grad(rho) x grad(p) ]
     vortx_pres = integrate(vort(ax1:axn,ay1:ayn,az1:azn,1)/rho(ax1:axn,ay1:ayn,az1:azn))
     vorty_pres = integrate(vort(ax1:axn,ay1:ayn,az1:azn,2)/rho(ax1:axn,ay1:ayn,az1:azn))
@@ -219,11 +250,16 @@ subroutine mypostprocess(step)
     ! call crossprod(vort,gradrho,gradp)
     call curl(vort(:,:,:,1),vort(:,:,:,2),vort(:,:,:,3),gradp(:,:,:,1)/rho,gradp(:,:,:,2)/rho,gradp(:,:,:,3)/rho)
 
+    !VERIFY if (master) print*, "x, y = ",x_c(ax1+16,ay1+16,az1+16),y_c(ax1+16,ay1+16,az1+16)
+    !VERIFY if (master) print*, "vortz_visc = ", vort(ax1+16,ay1+16,az1+16,3)*rho(ax1+16,ay1+16,az1+16)
+    !VERIFY if (master) print*, "vortz_visc = ", 4.0D0/( 3.0D0 * x_c(ax1+16,ay1+16,az1+16) )
+    
     ! vort now has [ curl( div(tau) / rho ) ]
     vortx_visc = integrate(vort(ax1:axn,ay1:ayn,az1:azn,1)*rho(ax1:axn,ay1:ayn,az1:azn))
     vorty_visc = integrate(vort(ax1:axn,ay1:ayn,az1:azn,2)*rho(ax1:axn,ay1:ayn,az1:azn))
     vortz_visc = integrate(vort(ax1:axn,ay1:ayn,az1:azn,3)*rho(ax1:axn,ay1:ayn,az1:azn))
     
+    !VERIFY stop
     ! ---------------- Vortex gen metrics ----------------
 
     call MPI_Reduce(vortx_intg,vortx_intg_total,1,MPI_REAL,MPI_SUM,master_proc,comm,ierr)
