@@ -3,6 +3,8 @@ module mpi
     implicit none
 
     include 'mpif.h'
+    
+    integer, parameter :: rkind=4                              ! Default kind parameter
 
     integer :: comm                               ! MPI_COMM_WORLD
     integer, parameter :: stat_size=MPI_STATUS_SIZE
@@ -39,10 +41,10 @@ module mpi
     integer :: reqSend_xl,reqSend_xr,reqSend_yl,reqSend_yr,reqSend_zl,reqSend_zr
     integer :: reqRecv_xl,reqRecv_xr,reqRecv_yl,reqRecv_yr,reqRecv_zl,reqRecv_zr
 
-    real(kind=4), dimension(:,:,:,:), allocatable :: sendBuf_xl, sendBuf_yl, sendBuf_zl
-    real(kind=4), dimension(:,:,:,:), allocatable :: sendBuf_xr, sendBuf_yr, sendBuf_zr
-    real(kind=4), dimension(:,:,:,:), allocatable :: recvBuf_xl, recvBuf_yl, recvBuf_zl
-    real(kind=4), dimension(:,:,:,:), allocatable :: recvBuf_xr, recvBuf_yr, recvBuf_zr
+    real(kind=rkind), dimension(:,:,:,:), allocatable :: sendBuf_xl, sendBuf_yl, sendBuf_zl
+    real(kind=rkind), dimension(:,:,:,:), allocatable :: sendBuf_xr, sendBuf_yr, sendBuf_zr
+    real(kind=rkind), dimension(:,:,:,:), allocatable :: recvBuf_xl, recvBuf_yl, recvBuf_zl
+    real(kind=rkind), dimension(:,:,:,:), allocatable :: recvBuf_xr, recvBuf_yr, recvBuf_zr
 
 contains
 

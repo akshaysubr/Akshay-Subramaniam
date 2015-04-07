@@ -115,6 +115,7 @@ end subroutine cleanup_postprocess
 ! Read the data from a given processor and visualization directory
 subroutine readProcData(vizdir,xp,yp,zp,procdata)
 
+    use globals, only: rkind
     use globals, only: nx,ny,nz,px,py,pz,ax,ay,az,nvars,ndim,invprocmap,flen,verbose
     use globals, only: xInd,yInd,zInd
     use globals, only: iodata
@@ -123,7 +124,7 @@ subroutine readProcData(vizdir,xp,yp,zp,procdata)
     integer :: proc,pUnit,var
     character(len=flen), intent(in) :: vizdir
     character(len=flen) :: procfile
-    real(kind=4), dimension(ax,ay,az,ndim-3), intent(out) :: procdata
+    real(kind=rkind), dimension(ax,ay,az,ndim-3), intent(out) :: procdata
 
     pUnit = 27
 
@@ -145,6 +146,7 @@ end subroutine readProcData
 ! Read the grid from a given processor
 subroutine readProcGrid(xp,yp,zp,procgrid)
 
+    use globals, only: rkind
     use globals, only: nx,ny,nz,px,py,pz,ax,ay,az,nvars,ndim,invprocmap,jobdir,flen,verbose
     use globals, only: xInd,yInd,zInd
     use globals, only: iodata
@@ -152,7 +154,7 @@ subroutine readProcGrid(xp,yp,zp,procgrid)
     integer, intent(in):: xp,yp,zp
     integer :: proc,pUnit,var
     character(len=flen) :: procfile
-    real(kind=4), dimension(ax,ay,az,3), intent(out) :: procgrid
+    real(kind=rkind), dimension(ax,ay,az,3), intent(out) :: procgrid
 
     pUnit = 27
 
@@ -173,13 +175,14 @@ end subroutine readProcGrid
 
 ! Read data from all procs and store in global iodata array
 subroutine read_allProcs(step)
+    use globals, only: rkind
     use globals, only: nx,ny,nz,ax,ay,az,px,py,pz,xInd,yInd,zInd,ns,ndim,iodata
     use globals, only: jobdir,flen
     implicit none
     integer, intent(in) :: step
     integer :: xp,yp,zp
     character(len=flen) :: vizdir
-    real(kind=4), dimension(:,:,:,:), allocatable :: procdata
+    real(kind=rkind), dimension(:,:,:,:), allocatable :: procdata
 
     if (.not. allocated(iodata)) call allocate_allProcs
     allocate( procdata(ax,ay,az,ndim-3) )
@@ -202,13 +205,14 @@ end subroutine read_allProcs
 
 ! Read data from single proc and store in global iodata array
 subroutine read_thisProc(step,xp,yp,zp)
+    use globals, only: rkind
     use globals, only: nx,ny,nz,ax,ay,az,px,py,pz,xInd,yInd,zInd,ns,ndim,iodata
     use globals, only: jobdir,flen
     implicit none
     integer, intent(in) :: step
     integer, intent(in) :: xp,yp,zp
     character(len=flen) :: vizdir
-    real(kind=4), dimension(:,:,:,:), allocatable :: procdata
+    real(kind=rkind), dimension(:,:,:,:), allocatable :: procdata
 
     if (.not. allocated(iodata)) call allocate_singleProc
     allocate( procdata(ax,ay,az,ndim-3) )
@@ -225,11 +229,12 @@ end subroutine read_thisProc
 
 ! Read grid from all the processors and store in global iodata array
 subroutine read_allProcs_grid
+    use globals, only: rkind
     use globals, only: nx,ny,nz,ax,ay,az,px,py,pz,xInd,yInd,zInd,ns,ndim,iodata
     use globals, only: jobdir,flen
     implicit none
     integer :: xp,yp,zp
-    real(kind=4), dimension(:,:,:,:), allocatable :: procgrid
+    real(kind=rkind), dimension(:,:,:,:), allocatable :: procgrid
 
     if (.not. allocated(iodata)) call allocate_allProcs
     allocate( procgrid(ax,ay,az,3) )
@@ -250,11 +255,12 @@ end subroutine read_allProcs_grid
 
 ! Read grid from this processor and store in global iodata array
 subroutine read_thisProc_grid(xp,yp,zp)
+    use globals, only: rkind
     use globals, only: nx,ny,nz,ax,ay,az,px,py,pz,xInd,yInd,zInd,ns,ndim,iodata
     use globals, only: jobdir,flen
     implicit none
     integer, intent(in) :: xp,yp,zp
-    real(kind=4), dimension(:,:,:,:), allocatable :: procgrid
+    real(kind=rkind), dimension(:,:,:,:), allocatable :: procgrid
 
     if (.not. allocated(iodata)) call allocate_allProcs
     allocate( procgrid(ax,ay,az,3) )

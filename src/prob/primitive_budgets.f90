@@ -66,6 +66,7 @@ end program postprocess
 
 subroutine mypostprocess(step)
 
+    use globals, only: rkind
     use globals, only: u,v,w,rho,p,e,T,mu,bulk,ktc,x_c,y_c,z_c,iodata
     use globals, only: dx,dy,dz,nx,ny,nz,px,py,pz,ax,ay,az
     use globals, only: t1,tf,dt,flen,jobdir
@@ -80,10 +81,10 @@ subroutine mypostprocess(step)
     
     integer, intent(in) :: step
     integer :: xp,yp,zp,i,ierr
-    real(kind=4), dimension(:,:,:), allocatable :: Em,dilatation,tmp
-    real(kind=4), dimension(:,:,:,:), allocatable :: uder,vder,wder,Tder
-    real(kind=4), dimension(:,:,:,:), allocatable :: x_flux,y_flux,z_flux,rhs
-    real(kind=4), dimension(5) :: rhs_intg, rhs_intg_total
+    real(kind=rkind), dimension(:,:,:), allocatable :: Em,dilatation,tmp
+    real(kind=rkind), dimension(:,:,:,:), allocatable :: uder,vder,wder,Tder
+    real(kind=rkind), dimension(:,:,:,:), allocatable :: x_flux,y_flux,z_flux,rhs
+    real(kind=rkind), dimension(5) :: rhs_intg, rhs_intg_total
     character(len=flen) :: statsfile
     integer, parameter :: statsUnit=37
     logical, parameter :: writetofile=.FALSE.

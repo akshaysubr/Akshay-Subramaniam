@@ -1,6 +1,8 @@
 module globals
+
+    use mpi, only: rkind
     implicit none
-    integer, parameter :: flen=120
+    integer, parameter :: flen=120                             ! Default character length
     logical :: verbose=.FALSE.
     logical :: lowmem=.FALSE.
     logical :: parallel=.TRUE.
@@ -33,7 +35,7 @@ module globals
 
 ! ============== INPUT VARIABLES ====================
     character(len=flen) :: jobdir                              ! Job directory with all viz files 
-    real(kind=4) :: dt                                         ! Time between viz dumps
+    real(kind=rkind) :: dt                                         ! Time between viz dumps
     integer :: t1                                              ! First viz dump to be processed
     integer :: tf                                              ! Last viz dump to be processed
 ! ============== INPUT VARIABLES ====================
@@ -65,23 +67,23 @@ module globals
     integer :: yInd                                            ! y-coordinate Index
     integer :: zInd                                            ! z-coordinate Index
 
-    real(kind=4), dimension(:,:,:,:), allocatable, target :: iodata
-    real(kind=4), dimension(:,:,:)  ,  pointer :: u             ! x velocity component
-    real(kind=4), dimension(:,:,:)  ,  pointer :: v             ! y velocity component
-    real(kind=4), dimension(:,:,:)  ,  pointer :: w             ! z velocity component
-    real(kind=4), dimension(:,:,:)  ,  pointer :: rho           ! density
-    real(kind=4), dimension(:,:,:)  ,  pointer :: e             ! internal energy
-    real(kind=4), dimension(:,:,:)  ,  pointer :: p             ! pressure
-    real(kind=4), dimension(:,:,:)  ,  pointer :: T             ! temperature
-    real(kind=4), dimension(:,:,:)  ,  pointer :: c             ! speed of sound
-    real(kind=4), dimension(:,:,:)  ,  pointer :: mu            ! shear viscosity
-    real(kind=4), dimension(:,:,:)  ,  pointer :: bulk          ! bulk viscosity
-    real(kind=4), dimension(:,:,:)  ,  pointer :: ktc           ! thermal conductivity
-    real(kind=4), dimension(:,:,:)  ,  pointer :: Diff          ! diffusivity
-    real(kind=4), dimension(:,:,:,:),  pointer :: Y             ! mass fractions
-    real(kind=4), dimension(:,:,:)  ,  pointer :: x_c           ! x coordinate
-    real(kind=4), dimension(:,:,:)  ,  pointer :: y_c           ! y coordinate
-    real(kind=4), dimension(:,:,:)  ,  pointer :: z_c           ! z coordinate
+    real(kind=rkind), dimension(:,:,:,:), allocatable, target :: iodata
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: u             ! x velocity component
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: v             ! y velocity component
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: w             ! z velocity component
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: rho           ! density
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: e             ! internal energy
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: p             ! pressure
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: T             ! temperature
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: c             ! speed of sound
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: mu            ! shear viscosity
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: bulk          ! bulk viscosity
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: ktc           ! thermal conductivity
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: Diff          ! diffusivity
+    real(kind=rkind), dimension(:,:,:,:),  pointer :: Y             ! mass fractions
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: x_c           ! x coordinate
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: y_c           ! y coordinate
+    real(kind=rkind), dimension(:,:,:)  ,  pointer :: z_c           ! z coordinate
 
     double precision, parameter :: pi=3.14159265358979323846d0,zero=0.0d0,one=1.0d0,two=2.0d0
 

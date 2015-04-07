@@ -66,6 +66,7 @@ end program postprocess
 
 subroutine mypostprocess(step)
 
+    use globals, only: rkind
     use globals, only: u,v,w,rho,p,mu,bulk,x_c,y_c,z_c,iodata
     use globals, only: dx,dy,dz,nx,ny,nz,px,py,pz,ax,ay,az
     use globals, only: t1,tf,dt,flen,jobdir
@@ -80,16 +81,16 @@ subroutine mypostprocess(step)
     
     integer, intent(in) :: step
     integer :: xp,yp,zp,i,ierr
-    real(kind=4) :: vortx_intg,vorty_intg,vortz_intg,vortm_intg       ! Integrated rho*omega
-    real(kind=4) :: vortx_pres,vorty_pres,vortz_pres,vortm_pres       ! Baroclinic pressure torque
-    real(kind=4) :: vortx_visc,vorty_visc,vortz_visc,vortm_visc       ! Viscous torque
-    real(kind=4) :: vortx_comp,vorty_comp,vortz_comp,vortm_comp       ! Compressibility effect
-    real(kind=4) :: vortx_intg_total,vorty_intg_total,vortz_intg_total,vortm_intg_total       ! Total Integrated rho*omega
-    real(kind=4) :: vortx_pres_total,vorty_pres_total,vortz_pres_total,vortm_pres_total       ! Total Baroclinic pressure torque
-    real(kind=4) :: vortx_visc_total,vorty_visc_total,vortz_visc_total,vortm_visc_total       ! Total Viscous torque
-    real(kind=4) :: vortx_comp_total,vorty_comp_total,vortz_comp_total,vortm_comp_total       ! Total Compressibility effect
-    real(kind=4), dimension(:,:,:), allocatable :: dilatation,tmp
-    real(kind=4), dimension(:,:,:,:), allocatable :: vort,gradrho,gradp,uder,vder,wder
+    real(kind=rkind) :: vortx_intg,vorty_intg,vortz_intg,vortm_intg                               ! Integrated rho*omega
+    real(kind=rkind) :: vortx_pres,vorty_pres,vortz_pres,vortm_pres                               ! Baroclinic pressure torque
+    real(kind=rkind) :: vortx_visc,vorty_visc,vortz_visc,vortm_visc                               ! Viscous torque
+    real(kind=rkind) :: vortx_comp,vorty_comp,vortz_comp,vortm_comp                               ! Compressibility effect
+    real(kind=rkind) :: vortx_intg_total,vorty_intg_total,vortz_intg_total,vortm_intg_total       ! Total Integrated rho*omega
+    real(kind=rkind) :: vortx_pres_total,vorty_pres_total,vortz_pres_total,vortm_pres_total       ! Total Baroclinic pressure torque
+    real(kind=rkind) :: vortx_visc_total,vorty_visc_total,vortz_visc_total,vortm_visc_total       ! Total Viscous torque
+    real(kind=rkind) :: vortx_comp_total,vorty_comp_total,vortz_comp_total,vortm_comp_total       ! Total Compressibility effect
+    real(kind=rkind), dimension(:,:,:), allocatable :: dilatation,tmp
+    real(kind=rkind), dimension(:,:,:,:), allocatable :: vort,gradrho,gradp,uder,vder,wder
     character(len=flen) :: statsfile
     integer, parameter :: statsUnit=37
     logical, parameter :: writetofile=.FALSE.

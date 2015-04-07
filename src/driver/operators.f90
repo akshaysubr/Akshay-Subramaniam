@@ -1,9 +1,9 @@
 subroutine ddx_2ndCentral(f,df)
 
-    use globals, only: dx
+    use globals, only: dx,rkind
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: f
-    real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
+    real(kind=rkind), dimension(:,:,:), intent(in) :: f
+    real(kind=rkind), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
     integer :: nx
 
     nx = SIZE(f,1)
@@ -16,10 +16,10 @@ end subroutine ddx_2ndCentral
 
 subroutine ddy_2ndCentral(f,df)
 
-    use globals, only: dy
+    use globals, only: dy,rkind
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: f
-    real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
+    real(kind=rkind), dimension(:,:,:), intent(in) :: f
+    real(kind=rkind), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
     integer :: ny
 
     ny = SIZE(f,2)
@@ -32,10 +32,10 @@ end subroutine ddy_2ndCentral
 
 subroutine ddz_2ndCentral(f,df)
 
-    use globals, only: dz
+    use globals, only: dz,rkind
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: f
-    real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
+    real(kind=rkind), dimension(:,:,:), intent(in) :: f
+    real(kind=rkind), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
     integer :: nz
 
     nz = SIZE(f,3)
@@ -48,10 +48,10 @@ end subroutine ddz_2ndCentral
 
 subroutine ddx_4thCentral(f,df)
 
-    use globals, only: dx
+    use globals, only: dx,rkind
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: f
-    real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
+    real(kind=rkind), dimension(:,:,:), intent(in) :: f
+    real(kind=rkind), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
     integer :: nx
 
     nx = SIZE(f,1)
@@ -66,10 +66,10 @@ end subroutine ddx_4thCentral
 
 subroutine ddy_4thCentral(f,df)
 
-    use globals, only: dy
+    use globals, only: dy,rkind
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: f
-    real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
+    real(kind=rkind), dimension(:,:,:), intent(in) :: f
+    real(kind=rkind), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
     integer :: ny
 
     ny = SIZE(f,2)
@@ -84,10 +84,10 @@ end subroutine ddy_4thCentral
 
 subroutine ddz_4thCentral(f,df)
 
-    use globals, only: dz
+    use globals, only: dz,rkind
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: f
-    real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
+    real(kind=rkind), dimension(:,:,:), intent(in) :: f
+    real(kind=rkind), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
     integer :: nz
 
     nz = SIZE(f,3)
@@ -102,10 +102,10 @@ end subroutine ddz_4thCentral
 
 subroutine d2x_2ndCentral(f,df)
 
-    use globals, only: dx
+    use globals, only: dx,rkind
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: f
-    real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
+    real(kind=rkind), dimension(:,:,:), intent(in) :: f
+    real(kind=rkind), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
     integer :: nx
 
     nx = SIZE(f,1)
@@ -118,10 +118,10 @@ end subroutine d2x_2ndCentral
 
 subroutine d2y_2ndCentral(f,df)
 
-    use globals, only: dy
+    use globals, only: dy,rkind
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: f
-    real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
+    real(kind=rkind), dimension(:,:,:), intent(in) :: f
+    real(kind=rkind), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
     integer :: ny
 
     ny = SIZE(f,2)
@@ -134,10 +134,10 @@ end subroutine d2y_2ndCentral
 
 subroutine d2z_2ndCentral(f,df)
 
-    use globals, only: dz
+    use globals, only: dz,rkind
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: f
-    real(kind=4), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
+    real(kind=rkind), dimension(:,:,:), intent(in) :: f
+    real(kind=rkind), dimension(SIZE(f,1),SIZE(f,2),SIZE(f,3)), intent(out) :: df
     integer :: nz
 
     nz = SIZE(f,3)
@@ -150,10 +150,10 @@ end subroutine d2z_2ndCentral
 
 function integrate_1storder_all(f) result(integral)
 
-    use globals, only: dx,dy,dz
+    use globals, only: dx,dy,dz,rkind
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: f
-    real(kind=4) :: integral
+    real(kind=rkind), dimension(:,:,:), intent(in) :: f
+    real(kind=rkind) :: integral
 
     integral = SUM(f)*dx*dy*dz
 
@@ -161,10 +161,11 @@ end function integrate_1storder_all
 
 subroutine grad(f,fx,fy,fz)
 
+    use globals, only: rkind
     use interfaces, only: ddx,ddy,ddz
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: f
-    real(kind=4), dimension(:,:,:), intent(out) :: fx,fy,fz
+    real(kind=rkind), dimension(:,:,:), intent(in) :: f
+    real(kind=rkind), dimension(:,:,:), intent(out) :: fx,fy,fz
 
     call ddx(f,fx)
     call ddy(f,fy)
@@ -174,11 +175,12 @@ end subroutine grad
 
 subroutine curl(fx,fy,fz,u,v,w)
 
+    use globals, only: rkind
     use interfaces, only: ddx,ddy,ddz
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: u,v,w
-    real(kind=4), dimension(:,:,:), intent(out) :: fx,fy,fz
-    real(kind=4), dimension(:,:,:), allocatable :: tmp,dum
+    real(kind=rkind), dimension(:,:,:), intent(in) :: u,v,w
+    real(kind=rkind), dimension(:,:,:), intent(out) :: fx,fy,fz
+    real(kind=rkind), dimension(:,:,:), allocatable :: tmp,dum
 
     if(.not. allocated(tmp) ) allocate( tmp(SIZE(u,1),SIZE(u,2),SIZE(u,3)) )
     if(.not. allocated(dum) ) allocate( dum(SIZE(u,1),SIZE(u,2),SIZE(u,3)) )
@@ -202,9 +204,10 @@ end subroutine curl
 
 subroutine crossprod_components(rx,ry,rz,ux,uy,uz,vx,vy,vz)
 
+    use globals, only: rkind
     implicit none
-    real(kind=4), dimension(:,:,:), intent(in) :: ux,uy,uz,vx,vy,vz
-    real(kind=4), dimension(:,:,:), intent(out) :: rx,ry,rz
+    real(kind=rkind), dimension(:,:,:), intent(in) :: ux,uy,uz,vx,vy,vz
+    real(kind=rkind), dimension(:,:,:), intent(out) :: rx,ry,rz
 
     rx = uy*vz - uz*vy
     ry = uz*vx - ux*vz
@@ -214,9 +217,10 @@ end subroutine crossprod_components
 
 subroutine crossprod_arrays(r,u,v)
 
+    use globals, only: rkind
     implicit none
-    real(kind=4), dimension(:,:,:,:), intent(in) :: u,v
-    real(kind=4), dimension(:,:,:,:), intent(out) :: r
+    real(kind=rkind), dimension(:,:,:,:), intent(in) :: u,v
+    real(kind=rkind), dimension(:,:,:,:), intent(out) :: r
 
     r(:,:,:,1) = u(:,:,:,2)*v(:,:,:,3) - u(:,:,:,3)*v(:,:,:,2)
     r(:,:,:,2) = u(:,:,:,3)*v(:,:,:,1) - u(:,:,:,1)*v(:,:,:,3)
