@@ -1,5 +1,5 @@
 &INPUT
-jobdir = '/scratch/akshays/miranda/TAMU/TEST2_OUTPUT'
+jobdir = '/scratch/akshays/miranda/TAMU/TEST_THICK_MYVARS_064'
 ppx = 4
 ppy = 2
 ppz = 2

@@ -2,7 +2,8 @@ program postprocess
 
     use globals, only: rkind
     use globals, only: parallel,lowmem,x_c,y_c,z_c,u,v,t1,tf
-    use globals, only: nx,ny,nz,ax,ay,az,ax1,axn,ay1,ayn,az1,azn,xInd
+    use globals, only: nx,ny,nz,ax,ay,az,ax1,axn,ay1,ayn,az1,azn,ndim,xInd
+    use globals, only: uInd,vInd,wInd,rhoInd,pInd,muInd,bulkInd
     use mpi, only: comm,proc,nprocs,master
     use mpi, only: x1proc,xnproc,y1proc,ynproc,z1proc,znproc
     use interfaces, only: ddx,ddy
@@ -14,7 +15,7 @@ program postprocess
     integer status(MPI_STATUS_SIZE)
 
     real(kind=rkind) uder
-
+    logical, dimension(:), allocatable :: dpvars
     integer :: step
 
     ! Set the low memory flag to true
@@ -39,11 +40,21 @@ program postprocess
     ! print*,proc,": axn, ayn, azn = ",axn,ayn,azn
     ! print*,proc,": x1proc, xnproc = ",x1proc,xnproc
 
+    allocate( dpvars(ndim-3) )
+    dpvars = .FALSE.
+    dpvars(uInd) = .TRUE.
+    dpvars(vInd) = .TRUE.
+    dpvars(wInd) = .TRUE.
+    dpvars(rhoInd) = .TRUE.
+    dpvars(pInd) = .TRUE.
+    dpvars(muInd) = .TRUE.
+    dpvars(bulkInd) = .TRUE.
+
     step = 0
     if (master) print*, "> Processing time step ", step
 
     call read_parallel_grid
-    call read_parallel_data(step)
+    call read_parallel_data_dp(step, dpvars)
 
     ! if (proc == 1) print*,"Proc ",proc,": x_c(:,ay1,az1) = ",x_c(:,ay1,az1)
     ! if (master) print*,"Proc ",proc,": z_c(ax1,ay1,:) = ",z_c(ax1,ay1,:)
@@ -79,6 +90,8 @@ program postprocess
     !     print*, '> Processing time step ',step
     !     call mypostprocess(step)
     ! end do
+
+    deallocate( dpvars )
     
     call cleanup_postprocess
 

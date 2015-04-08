@@ -4,11 +4,16 @@ module mpi
 
     include 'mpif.h'
     
-    integer, parameter :: rkind=4                              ! Default kind parameter
+    integer, parameter :: sp = 4                  ! Single precision
+    integer, parameter :: mpi_sp = MPI_REAL       ! Single precision MPI datatype
+    integer, parameter :: dp = kind(1.0D0)        ! Double precision
+    integer, parameter :: mpi_dp = MPI_DOUBLE     ! Double precision MPI datatype
+
+    integer, parameter :: rkind = dp              ! Kind parameter to use (Change this to change the precision)
+    integer, parameter :: datatype = mpi_dp       ! MPI datatype to use (Change this to change the precision)
 
     integer :: comm                               ! MPI_COMM_WORLD
     integer, parameter :: stat_size=MPI_STATUS_SIZE
-    integer, parameter :: datatype=MPI_REAL
     integer, parameter :: master_proc=0           ! Rank of the master processor
 
     logical :: master=.FALSE.                     ! Proc is master?

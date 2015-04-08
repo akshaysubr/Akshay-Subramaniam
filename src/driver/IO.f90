@@ -273,6 +273,7 @@ subroutine read_thisProc_grid(xp,yp,zp)
 end subroutine read_thisProc_grid
 
 subroutine read_parallel_data(step)
+    use globals, only: rkind
     use globals, only: nx,ny,nz,ax,ay,az,ax1,axn,ay1,ayn,az1,azn,nb,px,py,pz,ppx,ppy,ppz,ns,ndim,iodata,verbose,jobdir,flen,invprocmap
     use mpi, only: proc,xproc,yproc,zproc
     implicit none
@@ -284,7 +285,14 @@ subroutine read_parallel_data(step)
     character(len=flen) :: vizdir
     character(len=flen) :: procfile
 
+    real(kind=4), dimension(:,:,:), allocatable :: tmp       ! Explicitly mention the kind here
+                                                             ! since that is what is output from Miranda
+
     pUnit = 27
+
+    ! print*,'Using rkind = ',rkind
+    
+    if (rkind .NE. 4) allocate( tmp( SIZE(iodata,1),SIZE(iodata,2),SIZE(iodata,3) ) )
     
     WRITE(vizdir,'(2A,I4.4)') TRIM(jobdir),'/vis',step
 
@@ -307,17 +315,99 @@ subroutine read_parallel_data(step)
                 if(verbose) print*,'Reading file: ',TRIM(procfile)
                 OPEN(UNIT=pUnit,FILE=TRIM(procfile),FORM='UNFORMATTED',STATUS='OLD')
                 DO var=1,ndim-3
-                    READ(pUnit) iodata(x1:xn,y1:yn,z1:zn,var)
+                    if(rkind .NE. 4) then
+                        READ(pUnit) tmp(x1:xn,y1:yn,z1:zn)
+                        iodata(x1:xn,y1:yn,z1:zn,var) = tmp(x1:xn,y1:yn,z1:zn)
+                    else
+                        READ(pUnit) iodata(x1:xn,y1:yn,z1:zn,var)
+                    end if
                 END DO
                 CLOSE(pUnit)
 
             end do
         end do
     end do
+    
+    if ( allocated(tmp) ) deallocate( tmp )
 
 end subroutine read_parallel_data
 
+subroutine read_parallel_data_dp(step, dpvars)
+    use globals, only: rkind
+    use globals, only: nx,ny,nz,ax,ay,az,ax1,axn,ay1,ayn,az1,azn,nb,px,py,pz,ppx,ppy,ppz,ns,ndim,iodata,verbose,jobdir,flen,invprocmap
+    use mpi, only: proc,xproc,yproc,zproc
+    implicit none
+    integer, intent(in) :: step
+    logical, dimension(:), intent(in) :: dpvars
+    
+    integer :: p,xp,yp,zp
+    integer :: x1,xn,y1,yn,z1,zn
+    integer :: pUnit,dpUnit,var,ndpvars
+    character(len=flen) :: vizdir
+    character(len=flen) :: procfile,dprocfile
+
+    real(kind=4), dimension(:,:,:), allocatable :: tmp       ! Explicitly mention the kind here
+                                                             ! since that is what is output from Miranda
+
+    pUnit = 27
+    dpUnit = 37
+
+    ndpvars = SIZE(dpvars)
+
+    allocate( tmp( SIZE(iodata,1),SIZE(iodata,2),SIZE(iodata,3) ) )
+    
+    WRITE(vizdir,'(2A,I4.4)') TRIM(jobdir),'/vis',step
+
+    do xp=xproc*ppx,(xproc+1)*ppx-1
+        do yp=yproc*ppy,(yproc+1)*ppy-1
+            do zp=zproc*ppz,(zproc+1)*ppz-1
+
+                ! Get processor ID
+                p = invprocmap(xp+1,yp+1,zp+1)
+
+                x1 = ax1 + (xp-xproc*ppx)*nx/px
+                xn = x1 + nx/px - 1
+                y1 = ay1 + (yp-yproc*ppy)*ny/py
+                yn = y1 + ny/py - 1
+                z1 = az1 + (zp-zproc*ppz)*nz/pz
+                zn = z1 + nz/pz - 1
+
+                ! Read in variables
+                WRITE(procfile,'(2A,I6.6)') TRIM(vizdir),'/p',p
+                WRITE(dprocfile,'(2A,I6.6)') TRIM(vizdir),'/dp',p
+                
+                if(verbose) print*,'Reading file: ',TRIM(procfile)
+                if(verbose) print*,'Reading file: ',TRIM(dprocfile)
+                
+                OPEN(UNIT=pUnit,FILE=TRIM(procfile),FORM='UNFORMATTED',STATUS='OLD')
+                OPEN(UNIT=dpUnit,FILE=TRIM(dprocfile),FORM='UNFORMATTED',STATUS='OLD')
+                
+                DO var=1,ndim-3
+                    if( (var .GT. ndpvars) .OR. ( .NOT. dpvars(var)) ) then
+                        ! Read into kind=4 tmp array and put in iodata
+                        READ(pUnit) tmp(x1:xn,y1:yn,z1:zn)
+                        iodata(x1:xn,y1:yn,z1:zn,var) = tmp(x1:xn,y1:yn,z1:zn)
+                    else
+                        ! Directly read double precision data into iodata
+                        READ(dpUnit) iodata(x1:xn,y1:yn,z1:zn,var)
+                        ! Read from main file also to move pointer ahead to next var
+                        READ(pUnit) tmp(x1:xn,y1:yn,z1:zn)
+                    end if
+                END DO
+
+                CLOSE(pUnit)
+                CLOSE(dpUnit)
+
+            end do
+        end do
+    end do
+    
+    deallocate( tmp )
+
+end subroutine read_parallel_data_dp
+
 subroutine read_parallel_grid
+    use globals, only: rkind
     use globals, only: nx,ny,nz,ax,ay,az,ax1,axn,ay1,ayn,az1,azn,nb,px,py,pz,ppx,ppy,ppz,ns,ndim,iodata,verbose,jobdir,flen,invprocmap
     use mpi, only: xproc,yproc,zproc
     implicit none
@@ -327,7 +417,12 @@ subroutine read_parallel_grid
     integer :: pUnit,var
     character(len=flen) :: procfile
 
+    real(kind=4), dimension(:,:,:), allocatable :: tmp       ! Explicitly mention the kind here
+                                                             ! since that is what is output from Miranda
+
     pUnit = 27
+    
+    if (rkind .NE. 4) allocate( tmp( SIZE(iodata,1),SIZE(iodata,2),SIZE(iodata,3) ) )
     
     do xp=xproc*ppx,(xproc+1)*ppx-1
         do yp=yproc*ppy,(yproc+1)*ppy-1
@@ -348,12 +443,19 @@ subroutine read_parallel_grid
                 if (verbose) print*,'Reading file: ',TRIM(procfile)
                 OPEN(UNIT=pUnit,FILE=TRIM(procfile),FORM='UNFORMATTED',STATUS='OLD')
                 DO var=1,3
-                    READ(pUnit) iodata(x1:xn,y1:yn,z1:zn,ndim-3+var)
+                    if(rkind .NE. 4) then
+                        READ(pUnit) tmp(x1:xn,y1:yn,z1:zn)
+                        iodata(x1:xn,y1:yn,z1:zn,ndim-3+var) = tmp(x1:xn,y1:yn,z1:zn)
+                    else
+                        READ(pUnit) iodata(x1:xn,y1:yn,z1:zn,ndim-3+var)
+                    end if
                 END DO
                 CLOSE(pUnit)
 
             end do
         end do
     end do
+    
+    if ( allocated(tmp) ) deallocate( tmp )
 
 end subroutine read_parallel_grid
